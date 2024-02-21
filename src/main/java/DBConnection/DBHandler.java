@@ -41,17 +41,21 @@ public class DBHandler {
         return instance;
     }
 
-    private Connection connect(){
+    public Connection connect(){
         Connection connection = null;
         try{
-            connection = DriverManager.getConnection(url,USER,PASSWORD);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, USER, PASSWORD);
             System.out.println("-Database connected successfully-");
-
-        }catch (SQLException e){
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
             e.printStackTrace();
         }
         return connection;
     }
+
 
     public boolean doesUserExist (int userId) throws SQLException {
         String query = "SELECT * FROM User WHERE UserID = ?";

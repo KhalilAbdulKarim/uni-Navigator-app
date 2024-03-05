@@ -1,5 +1,6 @@
 package com.uninavigator.uninavigatorapp;
 
+import DBConnection.DBHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +11,7 @@ import java.io.IOException;
 public class StartApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApp.class.getResource("userTable.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApp.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 620, 380);
         stage.setTitle("Welcome To Uni-Navigator");
         stage.setResizable(false);
@@ -19,6 +20,19 @@ public class StartApp extends Application {
     }
 
     public static void main(String[] args) {
+        testConnection();
         launch();
     }
+
+    private static void testConnection() {
+        try {
+            System.out.println("Testing database connection...");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            DBHandler dbConn = new DBHandler();
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        }
+    }
+
 }

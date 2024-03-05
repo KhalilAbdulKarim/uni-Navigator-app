@@ -29,7 +29,7 @@ public class DBHandler {
         }
     }
 
-    private DBHandler(){
+    public DBHandler(){
         connect();
     }
 
@@ -57,30 +57,59 @@ public class DBHandler {
     }
 
 
-    public boolean doesUserExist (int userId) throws SQLException {
-        String query = "SELECT * FROM User WHERE UserID = ?";
+    // create dyncamic function called query that receives sql
 
+    // Method to execute SELECT queries
+    public ResultSet executeQuery(String sql, Object... params) {
         try (Connection connection = this.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, userId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet.next();
-            }
+             PreparedStatement preparedStatement = createPreparedStatement(connection, sql, params);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            // Clone the ResultSet because it will be closed after try-with-resources
+            return cloneResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null; // Or handle it more gracefully
         }
     }
 
+    // Helper method to create a PreparedStatement
+    private PreparedStatement createPreparedStatement(Connection connection, String sql, Object... params) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            preparedStatement.setObject(i + 1, params[i]);
+        }
+        return preparedStatement;
+    }
+
+    // Method to execute INSERT, UPDATE, DELETE
+    public int executeUpdate(String sql, Object... params) {
+        try (Connection connection = this.connect();
+             PreparedStatement preparedStatement = createPreparedStatement(connection, sql, params)) {
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Or handle it more gracefully
+        }
+    }
+
+    private ResultSet cloneResultSet(ResultSet resultSet) {
+        // Implement the logic to clone the ResultSet data into a new object
+        throw new UnsupportedOperationException("Cloning a ResultSet is not implemented.");
+    }
 
 
-
-
-
-
-
-
-
-
-
-
+    public boolean doesUserExist(int userId) {
+        String query = "SELECT * FROM User WHERE UserID = ?";
+        try {
+            ResultSet resultSet = this.executeQuery(query, userId);
+            // Assuming cloneResultSet method returns a ResultSet you can work with
+            boolean exists = resultSet != null && resultSet.next();
+            resultSet.close();
+            return exists;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

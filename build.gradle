@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id "org.javamodularity.moduleplugin" version "1.8.14"
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
 }
@@ -20,13 +20,19 @@ ext {
 sourceCompatibility = '19'
 targetCompatibility = '19'
 
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_19
+//    targetCompatibility = JavaVersion.VERSION_19
+//}
+
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'com.uninavigator.uninavigatorapp'
-    mainClass = 'com.uninavigator.uninavigatorapp.HelloApplication'
+    mainClass = 'com.uninavigator.uninavigatorapp.StartApp'
 }
 
 javafx {
@@ -38,7 +44,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'mysql:mysql-connector-java:8.0.29'
 }
 
 test {

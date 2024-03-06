@@ -54,7 +54,7 @@
    
    
             <!-- Registration Button -->
-                        <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#handleRegisterButtonAction"/>
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />

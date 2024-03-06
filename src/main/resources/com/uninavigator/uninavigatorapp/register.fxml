@@ -2,9 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -13,40 +16,47 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<!--        onAction="#handleRegisterButtonAction"-->
-
-<?import javafx.scene.image.Image?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.Register">
+<AnchorPane prefHeight="413.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.Register">
 
     <VBox alignment="CENTER" layoutX="69.0" layoutY="53.0" spacing="10">
-        <GridPane alignment="CENTER" hgap="10" prefHeight="198.0" prefWidth="318.0" vgap="10">
+        <GridPane alignment="CENTER" hgap="10" prefHeight="279.0" prefWidth="479.0" vgap="10">
             <padding>
                 <Insets bottom="10" left="25" right="25" top="25" />
             </padding>
-
+   
                <!-- Row 0 -->
-            <Label text="Username:" />
+            <Label prefHeight="17.0" prefWidth="65.0" text="Username:" />
             <TextField fx:id="usernameTextField" GridPane.columnIndex="1" />
-
-               <!-- Row 1 -->
-            <Label text="Password:" GridPane.rowIndex="1" />
-            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
+   
+            <!-- Row 1 -->
+            <Label text="Email:" GridPane.rowIndex="1" />
+            <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   
                <!-- Row 2 -->
-            <Label text="Email:" GridPane.rowIndex="2" />
-            <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-               <!-- Row 3 -->
+            <Label text="Password:" GridPane.rowIndex="2" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <CheckBox fx:id="showPasswordCheckbox" text="Show Password" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="plainTextField" managed="false" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   
+   
+   
+            <!-- Row 3 -->
             <Label text="First Name:" GridPane.rowIndex="3" />
             <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
+   
                <!-- Row 4 -->
             <Label text="Last Name:" GridPane.rowIndex="4" />
             <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-               <!-- Registration Button -->
-                        <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+   
+            <!-- Row 5: DOB -->
+            <Label text="Date of Birth:" GridPane.rowIndex="5" />
+            <DatePicker fx:id="dobDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+   
+   
+            <!-- Registration Button -->
+                        <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          <columnConstraints>
+            <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
          </columnConstraints>
@@ -57,10 +67,11 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints />
          </rowConstraints>
         </GridPane>
     </VBox>
-   <Label contentDisplay="CENTER" graphicTextGap="5.0" layoutX="185.0" layoutY="301.0" lineSpacing="1.0" prefHeight="17.0" prefWidth="161.0" text="Already have an account ?">
+   <Label contentDisplay="CENTER" graphicTextGap="5.0" layoutX="180.0" layoutY="330.0" lineSpacing="1.0" prefHeight="17.0" prefWidth="161.0" text="Already have an account ?">
       <font>
          <Font name="Al Tarikh Regular" size="13.0" />
       </font>
@@ -68,8 +79,8 @@
          <Insets right="1.0" />
       </opaqueInsets>
    </Label>
-   <Button layoutX="185.0" layoutY="334.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Login" />
-    <ImageView fitHeight="400.0" fitWidth="225.0" layoutX="375.0" pickOnBounds="true" preserveRatio="true">
+   <Button layoutX="218.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="25.0" prefWidth="63.0" text="Login" />
+    <ImageView fitHeight="428.0" fitWidth="237.0" layoutX="515.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@/img/uni_nav.jpeg" />
         </image>

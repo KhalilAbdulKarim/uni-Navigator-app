@@ -1,6 +1,6 @@
 package com.uninavigator.uninavigatorapp.services;
 import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.User;
+import com.uninavigator.uninavigatorapp.controllers.User;
 import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

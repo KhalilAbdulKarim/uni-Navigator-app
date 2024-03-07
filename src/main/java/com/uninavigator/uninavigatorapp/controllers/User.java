@@ -1,4 +1,4 @@
-package com.uninavigator.uninavigatorapp;
+package com.uninavigator.uninavigatorapp.controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;

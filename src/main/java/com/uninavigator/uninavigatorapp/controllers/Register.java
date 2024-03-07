@@ -25,7 +25,7 @@ public class Register {
     @FXML private TextField lastNameTextField;
     @FXML private DatePicker dobDatePicker;
 
-    private UserService userService = new UserService(DBHandler.getInstance());
+    private final UserService userService = new UserService(DBHandler.getInstance());
 
 
     @FXML
@@ -64,7 +64,7 @@ public class Register {
 
     public void handleLoginAction(ActionEvent actionEvent) {
         try{
-            FXMLLoader loader =  new FXMLLoader(getClass().getResource("login.fxml"));
+            FXMLLoader loader =  new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/controllers/Login.java"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

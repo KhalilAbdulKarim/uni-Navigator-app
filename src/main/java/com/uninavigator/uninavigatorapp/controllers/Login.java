@@ -1,6 +1,5 @@
 package com.uninavigator.uninavigatorapp.controllers;
 import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.User;
 import com.uninavigator.uninavigatorapp.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import utils.StageHandler;
 
 import java.io.IOException;
 
@@ -29,6 +29,8 @@ public class Login {
     @FXML
     private TextField plainTextField;
 
+    private StageHandler stageHandler;
+
 
     private UserService userService = new UserService(DBHandler.getInstance());
 
@@ -40,11 +42,11 @@ public class Login {
             showAlert("Login Error", "Username & Password cannot be empty");
             return;
         }
-        System.out.println("Before Attempting to authenticate user: " + username + " with password: " + password);
+//        System.out.println("Before Attempting to authenticate user: " + username + " with password: " + password);
 
         User user = userService.authenticateUser(username, password);
 
-        System.out.println("After Attempting to authenticate user: " + username + " with password: " + password);
+//        System.out.println("After Attempting to authenticate user: " + username + " with password: " + password);
 
         if (user != null) {
             navigateToDashboard(user.getRole(), actionEvent);
@@ -56,11 +58,13 @@ public class Login {
 
     public void handleRegisterAction(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("register.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/register.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+
+
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -111,16 +115,11 @@ public class Login {
 //                break;
 //        }
 
-        try {
+        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stageHandler =  new StageHandler(currentStage);
+        stageHandler.switchScene("/com/uninavigator/uninavigatorapp/userTable.fxml","usrTable");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("userTable.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 

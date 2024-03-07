@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="413.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.Register">
+<AnchorPane prefHeight="413.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.Register">
 
     <VBox alignment="CENTER" layoutX="69.0" layoutY="53.0" spacing="10">
         <GridPane alignment="CENTER" hgap="10" prefHeight="279.0" prefWidth="479.0" vgap="10">

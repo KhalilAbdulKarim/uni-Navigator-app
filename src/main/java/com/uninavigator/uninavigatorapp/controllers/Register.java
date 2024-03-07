@@ -1,4 +1,4 @@
-package com.uninavigator.uninavigatorapp;
+package com.uninavigator.uninavigatorapp.controllers;
 import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.services.UserService;
 import javafx.event.ActionEvent;

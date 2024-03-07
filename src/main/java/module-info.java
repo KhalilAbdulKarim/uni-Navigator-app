@@ -9,5 +9,7 @@ module com.uninavigator.uninavigatorapp {
 
     opens com.uninavigator.uninavigatorapp to javafx.fxml;
     exports com.uninavigator.uninavigatorapp;
+    exports com.uninavigator.uninavigatorapp.controllers;
+    opens com.uninavigator.uninavigatorapp.controllers to javafx.fxml;
 
 }

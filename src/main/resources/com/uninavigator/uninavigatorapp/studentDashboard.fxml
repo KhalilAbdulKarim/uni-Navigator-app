@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.uninavigator.uninavigatorapp.StudentDashboard"
+            prefHeight="500.0" prefWidth="700.0">
+
+
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="Exit" onAction="#handleExit"/>
+                    </items>
+                </Menu>
+                <Menu text="Navigation">
+                    <items>
+                        <MenuItem text="Course Enrollment" onAction="#loadCourseEnrollment"/>
+                        <MenuItem text="Profile Management" onAction="#loadProfileManagement"/>
+                        <MenuItem text="Academic Records" onAction="#loadAcademicRecords"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <StackPane fx:id="contentArea">
+            <!-- Dynamic content will be loaded here -->
+        </StackPane>
+    </center>
+
+</BorderPane>

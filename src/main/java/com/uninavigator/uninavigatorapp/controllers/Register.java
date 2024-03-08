@@ -1,6 +1,6 @@
 package com.uninavigator.uninavigatorapp.controllers;
-import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.services.UserService;
+import DBConnection.DBHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,10 +50,16 @@ public class Register {
         boolean success = userService.createUser(username, password, email, firstName, lastName, role, dob);
 
         if (success) {
+
             try {
                 Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 if (stageHandler == null) {
                     stageHandler = new StageHandler(currentStage);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You have registered successfully");
+                    alert.showAndWait();
                     stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "Login");
                 }
             } catch (Exception e) {

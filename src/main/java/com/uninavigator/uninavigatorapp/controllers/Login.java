@@ -49,7 +49,7 @@ public class Login {
 //        System.out.println("After Attempting to authenticate user: " + username + " with password: " + password);
 
         if (user != null) {
-            navigateToDashboard(user.getRole(), actionEvent);
+            navigate(user.getRole(), actionEvent);
         } else {
             showAlert("Login Error", "Invalid username or password");
         }
@@ -69,6 +69,42 @@ public class Login {
             e.printStackTrace();
 
         }
+    }
+
+
+    private void navigate(String role, ActionEvent actionEvent) {
+        String fxmlFile = "";
+        switch (role) {
+            case "Student":
+                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                break;
+            case "Instructor":
+                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                break;
+            case "Admin":
+                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                break;
+        }
+
+        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        if(stageHandler == null) {
+            stageHandler = new StageHandler(currentStage);
+        }
+        try {
+            stageHandler.switchScene(fxmlFile, "Dashboard");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Failed to navigate to the dashboard.");
+        }
+    }
+
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 
@@ -96,39 +132,6 @@ public class Login {
         });
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
-    }
-
-    private void navigateToDashboard(String role, ActionEvent actionEvent) {
-//        String fxmlFile = "";
-//        switch (role) {
-//            //To be changed
-//            case "Student":
-//                fxmlFile = "userTable.fxml";
-//                break;
-//            //To be changed
-//            case "Instructor":
-//                fxmlFile = "userTable.fxml";
-//                break;
-//            // Data List only for admins
-//            case "Admin":
-//                fxmlFile = "userTable.fxml";
-//                break;
-//        }
-
-        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stageHandler =  new StageHandler(currentStage);
-        stageHandler.switchScene("/com/uninavigator/uninavigatorapp/userTable.fxml","usrTable");
-
-
-    }
-
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
 

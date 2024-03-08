@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import utils.StageHandler;
+import javafx.scene.control.Alert;
 //import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
@@ -25,11 +27,13 @@ public class Register {
     @FXML private TextField lastNameTextField;
     @FXML private DatePicker dobDatePicker;
 
+    private StageHandler stageHandler;
+
     private final UserService userService = new UserService(DBHandler.getInstance());
 
 
     @FXML
-    private void handleRegisterButtonAction(ActionEvent event) {
+    private void handleRegisterButtonAction(ActionEvent actionEvent) {
         String username = usernameTextField.getText();
         String email = emailTextField.getText();
         String password = passwordField.getText();
@@ -37,45 +41,43 @@ public class Register {
         String lastName = lastNameTextField.getText();
         LocalDate dob = dobDatePicker.getValue();
 
-        // Assume 'role' is determined or chosen in your form. Example provided:
+        if (!validateRegistrationFields(username, email, password, firstName, lastName, dob)) {
+            // Validation failed, exit the method to prevent user creation
+            return;
+        }
         String role = "Student";
 
         boolean success = userService.createUser(username, password, email, firstName, lastName, role, dob);
 
         if (success) {
-            try{
-                FXMLLoader loader =  new FXMLLoader(getClass().getResource("login.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-            }catch(IOException e){
+            try {
+                Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                if (stageHandler == null) {
+                    stageHandler = new StageHandler(currentStage);
+                    stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "Login");
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Registration Error");
-            alert.setHeaderText(null);
-            alert.setContentText("There was an error with your registration. Please try again.");
-            alert.showAndWait();
+            showAlert("Registration Error", "There was an error with your registration. Please try again.");
         }
     }
 
     public void handleLoginAction(ActionEvent actionEvent) {
-        try{
-            FXMLLoader loader =  new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/controllers/Login.java"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-        }catch(IOException e){
+        try {
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            if (stageHandler == null) {
+                stageHandler = new StageHandler(currentStage);
+                stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "Login");
+            }
+        }
+        catch(Exception e){
             e.printStackTrace();
 
         }
     }
-
-
 
 
     @FXML
@@ -91,6 +93,41 @@ public class Register {
         // Synchronize the text in both fields
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
     }
+
+    public boolean validateRegistrationFields(String username, String email, String password, String firstName, String lastName, LocalDate dob) {
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || dob == null) {
+            showAlert("Missing Information", "Please fill in all fields.");
+            return false;
+        }
+
+        String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        String namePattern = "^[a-zA-Z\\s]+";
+
+        if (!email.matches(emailPattern)) {
+            showAlert("Invalid Email", "Email does not match the required format.");
+            return false;
+        }
+        if (!password.matches(passwordPattern)) {
+            showAlert("Weak Password", "Password must be at least 8 characters long and include a number, a symbol, an uppercase and a lowercase letter.");
+            return false;
+        }
+        if (!firstName.matches(namePattern) || !lastName.matches(namePattern)) {
+            showAlert("Invalid Name", "First name and last name must only contain letters.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
 //    public String hashPassword(String plainTextPassword){
 //        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());

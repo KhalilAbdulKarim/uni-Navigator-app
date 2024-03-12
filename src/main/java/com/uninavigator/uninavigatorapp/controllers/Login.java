@@ -76,7 +76,7 @@ public class Login {
         String fxmlFile = "";
         switch (role) {
             case "Student":
-                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                fxmlFile = "/com/uninavigator/uninavigatorapp/studentEnrollement.fxml";
                 break;
             case "Instructor":
                 fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";

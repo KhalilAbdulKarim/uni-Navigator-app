@@ -46,7 +46,7 @@ public class DBHandler {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, USER, PASSWORD);
-            System.out.println("-Database connected successfully-");
+//            System.out.println("-Database connected successfully-");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

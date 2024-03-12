@@ -20,9 +20,10 @@
         <Label fx:id="firstNameLabel" text="First Name: " />
         <Label fx:id="lastNameLabel" text="Last Name: " />
         <Label fx:id="dobLabel" prefHeight="21.0" prefWidth="74.0" text="Date of Birth: " />
-        <!-- Additional profile information labels as needed -->
+        <Label fx:id="roleLabel" text="Role: "/>
+
     </VBox>
-    <Button fx:id="editProfileButton" text="Edit Profile" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="260" AnchorPane.rightAnchor="260" />
+    <Button fx:id="editProfileButton" text="Edit Profile" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="260" AnchorPane.rightAnchor="260" onAction="#handleEditAction" />
    <Label layoutX="263.0" layoutY="35.0" prefHeight="17.0" prefWidth="74.0" text="PROFILE">
       <font>
          <Font name="Beirut Regular" size="16.0" />

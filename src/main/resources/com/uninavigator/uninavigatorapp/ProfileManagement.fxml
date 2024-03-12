@@ -1,59 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 
 <!--<AnchorPane xmlns="http://javafx.com/javafx"-->
 <!--            xmlns:fx="http://javafx.com/fxml"-->
 <!--            fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileManagement"-->
 <!--            prefHeight="400.0" prefWidth="600.0">-->
-
 <!--</AnchorPane>-->
 
-<?import javafx.scene.text.Text?>
-<VBox fx:id="profileVBox" alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileManagement">
+<VBox fx:id="profileVBox" alignment="CENTER" prefHeight="446.0" prefWidth="568.0" spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileManagement">
     <padding>
-        <Insets top="20" bottom="20" right="50" left="50"/>
+        <Insets bottom="20" left="50" right="50" top="20" />
     </padding>
 
-    <Text text="Profile Management" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Text style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Profile Management" />
 
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="10" prefHeight="295.0" prefWidth="433.0" vgap="10">
         <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
+            <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
 
-        <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="200"/>
+        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="usernameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="200"/>
+        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="emailField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Password:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <PasswordField fx:id="passwordField" GridPane.rowIndex="2" GridPane.columnIndex="1" maxWidth="200"/>
+        <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <PasswordField fx:id="passwordField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="First Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="firstNameField" GridPane.rowIndex="3" GridPane.columnIndex="1" maxWidth="200"/>
+        <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextField fx:id="firstNameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label text="Last Name:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="lastNameField" GridPane.rowIndex="4" GridPane.columnIndex="1" maxWidth="200"/>
+        <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="lastNameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-        <Label text="Date of Birth:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-        <DatePicker fx:id="dobPicker" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
 
-        <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="6">
-            <Button text="Save" fx:id="saveButton" onAction="#handleSaveAction" style="-fx-font-size: 14px;"/>
-            <Button text="Cancel" fx:id="cancelButton" onAction="#handleCancelAction" style="-fx-font-size: 14px;"/>
+        <HBox alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="177.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Button fx:id="saveButton" onAction="#handleSaveAction" prefHeight="27.0" prefWidth="80.0" style="-fx-font-size: 14px;" text="Save" />
+            <Button fx:id="cancelButton" onAction="#handleCancelAction" prefHeight="27.0" prefWidth="90.0" style="-fx-font-size: 14px;" text="Cancel" />
         </HBox>
+      <columnConstraints>
+         <ColumnConstraints maxWidth="86.5" minWidth="74.5" prefWidth="85.5" />
+         <ColumnConstraints maxWidth="181.5" minWidth="169.5" prefWidth="170.5" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
+   <Label prefHeight="18.0" prefWidth="143.0" text="Are you an instructor ?">
+      <VBox.margin>
+         <Insets right="100.0" />
+      </VBox.margin>
+      <font>
+         <Font name="Beirut Regular" size="13.0" />
+      </font>
+   </Label>
+   <Button mnemonicParsing="false" text="Verify">
+      <VBox.margin>
+         <Insets right="120.0" />
+      </VBox.margin>
+   </Button>
 </VBox>

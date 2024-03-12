@@ -42,11 +42,8 @@ public class Login {
             showAlert("Login Error", "Username & Password cannot be empty");
             return;
         }
-//        System.out.println("Before Attempting to authenticate user: " + username + " with password: " + password);
 
         User user = userService.authenticateUser(username, password);
-
-//        System.out.println("After Attempting to authenticate user: " + username + " with password: " + password);
 
         if (user != null) {
             navigate(user.getRole(), actionEvent);

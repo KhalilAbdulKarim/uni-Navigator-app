@@ -11,7 +11,7 @@ import java.io.IOException;
 public class StartApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApp.class.getResource("studentDashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApp.class.getResource("profileView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 620, 380);
         stage.setTitle("Welcome To Uni-Navigator");
         stage.setResizable(false);

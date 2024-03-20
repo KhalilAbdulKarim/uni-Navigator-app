@@ -27,29 +27,29 @@ public class User {
         return userId.get();
     }
 
-    public String getUsername() {
-        return username.get();
-    }
+//    public String getUsername() {
+//        return username.get();
+//    }
 
-    public String getEmail() {
-        return email.get();
-    }
-
-    public String getFirstName() {
-        return firstName.get();
-    }
-
-    public String getLastName() {
-        return lastName.get();
-    }
-
+//    public String getEmail() {
+//        return email.get();
+//    }
+//
+//    public String getFirstName() {
+//        return firstName.get();
+//    }
+//
+//    public String getLastName() {
+//        return lastName.get();
+//    }
+//
     public String getRole() {
         return role.get();
     }
-
-    public String getDob() {
-        return dob.get();
-    }
+//
+//    public String getDob() {
+//        return dob.get();
+//    }
 
 
     public SimpleIntegerProperty userIdProperty() {
@@ -108,4 +108,5 @@ public class User {
     public void setDob(String dob) {
         this.dob.set(dob);
     }
+
 }

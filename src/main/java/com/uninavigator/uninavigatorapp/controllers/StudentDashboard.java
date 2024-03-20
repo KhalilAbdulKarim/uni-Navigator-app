@@ -34,24 +34,15 @@ public class StudentDashboard {
 
     public void loadProfileManagement(ActionEvent actionEvent) {
         try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/ProfileManagement.fxml"));
-//            Parent root = loader.load();
-//            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/ProfileManagement.fxml"));
-            Parent root = loader.load();
-
-            // Instead of casting the event source, use a node that you know is part of the scene
-            Stage stage = (Stage) contentArea.getScene().getWindow();
-            Scene scene = new Scene(root);
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/profileView.fxml"));
+            Node profileView = loader.load();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(profileView);
 
         } catch (IOException e) {
             e.printStackTrace();
 
         }
-
     }
 
     public void loadAcademicRecords(ActionEvent actionEvent) {

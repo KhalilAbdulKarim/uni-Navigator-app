@@ -8,6 +8,8 @@ import utils.StageHandler;
 
 public class ProfileManagement {
     private StageHandler stageHandler;
+
+    //////// Add cancel button in profile management
     public void handleSaveAction(ActionEvent actionEvent) {
         //update user
     }

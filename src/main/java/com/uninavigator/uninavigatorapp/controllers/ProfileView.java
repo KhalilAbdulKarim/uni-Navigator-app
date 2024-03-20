@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import utils.SessionContext;
 import utils.StageHandler;
 
 public class ProfileView {
@@ -26,7 +27,7 @@ public class ProfileView {
 
     public void handleEditAction(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        if(stageHandler == null) {
+        if (stageHandler == null) {
             stageHandler = new StageHandler(currentStage);
         }
         try {
@@ -44,18 +45,21 @@ public class ProfileView {
         alert.setContentText(content);
         alert.showAndWait();
     }
-//    @FXML
-//    public void initialize() {
-//        User currentUser = userService.getCurrentUserDetails(); // Implement this method in UserService
-//
-//        // Update UI labels with user details
+
+    @FXML
+    public void initialize() {
+        String currentUsername = SessionContext.getCurrentUsername();
+        User currentUser = userService.getUserDetailsByUsername(currentUsername);
+
+
 //        usernameLabel.setText("Username: " + currentUser.getUsername());
 //        emailLabel.setText("Email: " + currentUser.getEmail());
 //        firstNameLabel.setText("First Name: " + currentUser.getFirstName());
 //        lastNameLabel.setText("Last Name: " + currentUser.getLastName());
-//        dobLabel.setText("Date of Birth: " + currentUser.getDob()); // Format date as needed
+//        dobLabel.setText("Date of Birth: " + currentUser.getDob());
 //        roleLabel.setText("Role: " + currentUser.getRole());
 //    }
 
 
+    }
 }

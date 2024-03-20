@@ -13,6 +13,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utils.StageHandler;
+import utils.SessionContext;
+
 
 import java.io.IOException;
 
@@ -43,10 +45,13 @@ public class Login {
             return;
         }
 
-        User user = userService.authenticateUser(username, password);
+        User authenticatedUser = userService.authenticateUser(username, password);
 
-        if (user != null) {
-            navigate(user.getRole(), actionEvent);
+        if (authenticatedUser != null) {
+            System.out.println(username + "+" + password);
+            SessionContext.setCurrentUser(authenticatedUser);
+            SessionContext.setCurrentUsername(username);
+            navigate(authenticatedUser.getRole(), actionEvent);
         } else {
             showAlert("Login Error", "Invalid username or password");
         }
@@ -73,7 +78,7 @@ public class Login {
         String fxmlFile = "";
         switch (role) {
             case "Student":
-                fxmlFile = "/com/uninavigator/uninavigatorapp/studentEnrollement.fxml";
+                fxmlFile = "/com/uninavigator/uninavigatorapp/studentDashboard.fxml";
                 break;
             case "Instructor":
                 fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
@@ -88,7 +93,7 @@ public class Login {
             stageHandler = new StageHandler(currentStage);
         }
         try {
-            stageHandler.switchScene(fxmlFile, "Dashboard");
+            stageHandler.switchScene(fxmlFile, "UNI-NAVIGATOR - Dashboard");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Navigation Error", "Failed to navigate to the dashboard.");

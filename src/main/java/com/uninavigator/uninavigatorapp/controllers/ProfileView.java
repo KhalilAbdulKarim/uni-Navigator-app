@@ -4,13 +4,18 @@ import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import utils.SessionContext;
 import utils.StageHandler;
+
+import java.io.IOException;
 
 public class ProfileView {
 
@@ -21,6 +26,7 @@ public class ProfileView {
     public Label emailLabel;
     public Label usernameLabel;
     public Label roleLabel;
+    public Button backButton;
     private StageHandler stageHandler;
     private DBHandler dbHandler;
     private UserService userService = new UserService(dbHandler);
@@ -35,6 +41,20 @@ public class ProfileView {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Navigation Error", "Failed to navigate to Edit Profile.");
+        }
+    }
+
+    public void handleBackAction(ActionEvent actionEvent) {
+        try
+             {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/studentDashboard.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setTitle("Dashboard");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+            } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -62,4 +82,6 @@ public class ProfileView {
 
 
     }
+
+
 }

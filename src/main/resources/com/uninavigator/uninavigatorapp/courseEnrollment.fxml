@@ -11,4 +11,12 @@
             fx:controller="com.uninavigator.uninavigatorapp.controllers.CourseEnrollment"
             prefHeight="400.0" prefWidth="600.0">
 
+
+
+
+
+
+
+
+
 </AnchorPane>

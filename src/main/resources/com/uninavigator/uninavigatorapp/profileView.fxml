@@ -7,26 +7,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileView">
-    <VBox layoutX="119.0" layoutY="64.0" prefHeight="286.0" prefWidth="363.0" spacing="30" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="64.0">
-        <padding>
-            <Insets bottom="20" left="20" right="20" top="20" />
-        </padding>
-        <Label fx:id="usernameLabel" graphicTextGap="8.0" prefHeight="17.0" prefWidth="69.0" text="Username: ">
-         <font>
-            <Font name="System Italic" size="13.0" />
-         </font></Label>
-        <Label fx:id="emailLabel" text="Email: " />
-        <Label fx:id="firstNameLabel" text="First Name: " />
-        <Label fx:id="lastNameLabel" text="Last Name: " />
-        <Label fx:id="dobLabel" prefHeight="21.0" prefWidth="74.0" text="Date of Birth: " />
-        <Label fx:id="roleLabel" text="Role: "/>
+<?import javafx.scene.control.ScrollPane?>
+<AnchorPane prefHeight="480.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileView">
+    <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="64.0">
+        <VBox spacing="30">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
+            <Label fx:id="usernameLabel" graphicTextGap="8.0" text="Username: ">
+                <font>
+                    <Font name="System Italic" size="13.0" />
+                </font>
+            </Label>
+            <Label fx:id="emailLabel" text="Email: " />
+            <Label fx:id="firstNameLabel" text="First Name: " />
+            <Label fx:id="lastNameLabel" text="Last Name: " />
+            <Label fx:id="dobLabel" text="Date of Birth: " />
+            <Label fx:id="roleLabel" text="Role: " />
+        </VBox>
+    </ScrollPane>
 
-    </VBox>
-    <Button fx:id="editProfileButton" text="Edit Profile" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="260" AnchorPane.rightAnchor="260" onAction="#handleEditAction" />
-   <Label layoutX="263.0" layoutY="35.0" prefHeight="17.0" prefWidth="74.0" text="PROFILE">
-      <font>
-         <Font name="Beirut Regular" size="16.0" />
-      </font>
-   </Label>
+
+    <Button fx:id="editProfileButton" onAction="#handleEditAction" text="Edit Profile" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="260" AnchorPane.rightAnchor="260" />
+
+
+    <Label layoutX="263.0" layoutY="35.0" text="PROFILE">
+        <font>
+            <Font name="Beirut Regular" size="16.0" />
+        </font>
+    </Label>
+
+
+    <Button fx:id="backButton" onAction="#handleBackAction" mnemonicParsing="false" text="BACK" layoutX="48.0" layoutY="33.0" />
 </AnchorPane>

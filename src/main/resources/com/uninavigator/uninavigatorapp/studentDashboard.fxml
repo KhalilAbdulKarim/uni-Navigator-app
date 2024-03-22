@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <BorderPane prefHeight="620.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.StudentDashboard">
-
-
     <top>
         <MenuBar prefHeight="27.0" prefWidth="839.0">
             <menus>
@@ -20,8 +20,9 @@
                 <Menu text="Navigation">
                     <items>
                         <MenuItem onAction="#loadCourseEnrollment" text="Course Enrollment" />
-                        <MenuItem onAction="#loadProfileManagement" text="Profile Management" />
                         <MenuItem onAction="#loadAcademicRecords" text="Academic Records" />
+                        <MenuItem onAction="#loadProfile" text="Profile" />
+                        <MenuItem onAction="#loadDashboard" text="Dashboard"/>
                     </items>
                 </Menu>
             </menus>
@@ -29,7 +30,15 @@
     </top>
     <center>
         <StackPane fx:id="contentArea">
-            <!-- Dynamic content will be loaded here -->
+            <TableView fx:id="coursesTableView" visible="false" managed="false">
+                <columns>
+                    <TableColumn fx:id="courseIdColumn" text="Course ID" />
+                    <TableColumn fx:id="courseNameColumn" text="Course Name" />
+                    <TableColumn fx:id="instructorIdColumn" text="Instructor ID" />
+                    <TableColumn fx:id="scheduleColumn" text="Schedule" />
+                    <TableColumn fx:id="descriptionColumn" text="Description" />
+                </columns>
+            </TableView>
         </StackPane>
     </center>
 

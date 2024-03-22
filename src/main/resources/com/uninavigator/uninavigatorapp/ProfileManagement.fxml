@@ -20,67 +20,52 @@
 <!--            prefHeight="400.0" prefWidth="600.0">-->
 <!--</AnchorPane>-->
 
-<VBox fx:id="profileVBox" alignment="CENTER" prefHeight="446.0" prefWidth="568.0" spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileManagement">
-    <padding>
-        <Insets bottom="20" left="50" right="50" top="20" />
-    </padding>
+<?import javafx.scene.control.ScrollPane?>
 
-    <Text style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Profile Management" />
-
-    <GridPane hgap="10" prefHeight="295.0" prefWidth="433.0" vgap="10">
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileManagement">
+    <VBox fx:id="profileVBox" alignment="CENTER" spacing="20">
         <padding>
-            <Insets bottom="20" left="20" right="20" top="20" />
+            <Insets bottom="20" left="50" right="50" top="20" />
         </padding>
 
-        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="usernameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Text style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Profile Management" />
 
-        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="emailField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <GridPane hgap="10" vgap="10">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
 
-        <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <PasswordField fx:id="passwordField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="200" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10" prefWidth="200" />
+            </columnConstraints>
 
-        <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="firstNameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextField fx:id="lastNameField" maxWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="firstNameField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
 
-        <HBox alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="177.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-            <Button fx:id="saveButton" onAction="#handleSaveAction" prefHeight="27.0" prefWidth="80.0" style="-fx-font-size: 14px;" text="Save" />
-            <Button fx:id="cancelButton" onAction="#handleCancelAction" prefHeight="27.0" prefWidth="90.0" style="-fx-font-size: 14px;" text="Cancel" />
-        </HBox>
-      <columnConstraints>
-         <ColumnConstraints maxWidth="86.5" minWidth="74.5" prefWidth="85.5" />
-         <ColumnConstraints maxWidth="181.5" minWidth="169.5" prefWidth="170.5" />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
-    </GridPane>
-   <Label prefHeight="18.0" prefWidth="143.0" text="Are you an instructor ?">
-      <VBox.margin>
-         <Insets right="100.0" />
-      </VBox.margin>
-      <font>
-         <Font name="Beirut Regular" size="13.0" />
-      </font>
-   </Label>
-   <Button mnemonicParsing="false" text="Verify">
-      <VBox.margin>
-         <Insets right="120.0" />
-      </VBox.margin>
-   </Button>
-</VBox>
+            <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <Button fx:id="saveButton" onAction="#handleSaveAction" text="Save" />
+                <Button fx:id="cancelButton" onAction="#handleCancelAction" text="Cancel" />
+            </HBox>
+        </GridPane>
+
+        <Label text="Are you an instructor ?" />
+        <Button mnemonicParsing="false" text="Verify" />
+    </VBox>
+</ScrollPane>

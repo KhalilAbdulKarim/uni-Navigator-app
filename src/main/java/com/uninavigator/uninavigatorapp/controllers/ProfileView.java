@@ -68,17 +68,20 @@ public class ProfileView {
 
     @FXML
     public void initialize() {
-        String currentUsername = SessionContext.getCurrentUsername();
-        User currentUser = userService.getUserDetailsByUsername(currentUsername);
+        User currentUser = SessionContext.getCurrentUser();
 
+        if (currentUser != null) {
+            usernameLabel.setText("Username: " + currentUser.getUsername());
+            emailLabel.setText("Email: " + currentUser.getEmail());
+            firstNameLabel.setText("First Name: " + currentUser.getFirstName());
+            lastNameLabel.setText("Last Name: " + currentUser.getLastName());
+            dobLabel.setText("Date of Birth: " + currentUser.getDob());
+            roleLabel.setText("Role: " + currentUser.getRole());
+        } else {
+            showAlert("Session Error", "No user is currently logged in.");
+            // Optionally navigate back to login screen or handle the error as needed
+        }
 
-//        usernameLabel.setText("Username: " + currentUser.getUsername());
-//        emailLabel.setText("Email: " + currentUser.getEmail());
-//        firstNameLabel.setText("First Name: " + currentUser.getFirstName());
-//        lastNameLabel.setText("Last Name: " + currentUser.getLastName());
-//        dobLabel.setText("Date of Birth: " + currentUser.getDob());
-//        roleLabel.setText("Role: " + currentUser.getRole());
-//    }
 
 
     }

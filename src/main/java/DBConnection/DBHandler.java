@@ -46,12 +46,13 @@ public class DBHandler {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, USER, PASSWORD);
-//            System.out.println("-Database connected successfully-");
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Database connection failed. Please check the log for details.");
         } catch (ClassNotFoundException e) {
             System.out.println("MySQL JDBC Driver not found.");
             e.printStackTrace();
+            throw new RuntimeException("JDBC Driver not found.");
         }
         return connection;
     }
@@ -98,18 +99,5 @@ public class DBHandler {
     }
 
 
-    public boolean doesUserExist(int userId) {
-        String query = "SELECT * FROM User WHERE UserID = ?";
-        try {
-            ResultSet resultSet = this.executeQuery(query, userId);
-            // Assuming cloneResultSet method returns a ResultSet you can work with
-            boolean exists = resultSet != null && resultSet.next();
-            resultSet.close();
-            return exists;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
 }

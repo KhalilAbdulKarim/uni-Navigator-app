@@ -4,22 +4,17 @@ import com.uninavigator.uninavigatorapp.controllers.User;
 
 
 public class SessionContext {
-    private static String currentUsername;
-    private static User currentUser;
+    private static final ThreadLocal<User> currentUser = new ThreadLocal<>();
 
     public static void setCurrentUser(User user) {
-        currentUser = user;
+        currentUser.set(user);
     }
 
     public static User getCurrentUser() {
-        return currentUser;
+        return currentUser.get();
     }
 
-    public static void setCurrentUsername(String username) {
-        currentUsername = username;
-    }
-
-    public static String getCurrentUsername() {
-        return currentUsername;
+    public static void clear() {
+        currentUser.remove();
     }
 }

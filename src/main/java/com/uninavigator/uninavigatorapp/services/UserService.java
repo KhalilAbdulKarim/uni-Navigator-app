@@ -72,40 +72,6 @@ public class UserService {
         return null;
     }
 
-    public User getCurrentUserDetails() {
-        User currentUser = null;
-        String currentUsername = SessionContext.getCurrentUsername();
-
-        String query = "SELECT * FROM User WHERE Username = ?";
-
-        try(Connection conn = dbHandler.connect();
-            PreparedStatement pstmt = conn.prepareStatement(query)){
-
-            pstmt.setString(1, currentUsername);
-            ResultSet rs = pstmt.executeQuery();
-
-            if(rs.next()){
-                int userId = rs.getInt("UserID");
-                String username = rs.getString("Username");
-                String email = rs.getString("Email");
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
-                String dob = rs.getString("DOB");
-                String role = rs.getString("Role");
-
-
-                currentUser = new User(userId,username,email,firstName,lastName,role,dob);
-
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return currentUser;
-
-    }
-
     public User getUserDetailsByUsername(String currentUsername) {
         User user = null;
         String query = "SELECT * FROM User WHERE Username = ?";

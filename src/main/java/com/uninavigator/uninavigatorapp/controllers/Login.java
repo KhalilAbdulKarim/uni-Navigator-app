@@ -37,24 +37,27 @@ public class Login {
     private UserService userService = new UserService(DBHandler.getInstance());
 
     public void handleLoginAction(ActionEvent actionEvent) {
-        String username = usernameTextField.getText();
+        String username = usernameTextField.getText().trim();
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
             showAlert("Login Error", "Username & Password cannot be empty");
             return;
         }
+        try{
+            User authenticatedUser = userService.authenticateUser(username, password);
+            if (authenticatedUser != null) {
+                SessionContext.clear();
+                SessionContext.setCurrentUser(authenticatedUser);
+                navigate(authenticatedUser.getRole(), actionEvent);
+            } else {
+                showAlert("Login Error", "Invalid username or password. Please try again.");
+            }
 
-        User authenticatedUser = userService.authenticateUser(username, password);
+        }catch (Exception e){
+            showAlert("Login Error", "An error occurred while attempting to log in. Please try again later.");
+            e.printStackTrace();}
 
-        if (authenticatedUser != null) {
-            System.out.println(username + "+" + password);
-            SessionContext.setCurrentUser(authenticatedUser);
-            SessionContext.setCurrentUsername(username);
-            navigate(authenticatedUser.getRole(), actionEvent);
-        } else {
-            showAlert("Login Error", "Invalid username or password");
-        }
 
     }
 

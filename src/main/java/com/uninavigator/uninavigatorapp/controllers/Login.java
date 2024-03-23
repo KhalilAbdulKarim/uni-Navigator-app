@@ -87,8 +87,12 @@ public class Login {
                 fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
                 break;
             case "Admin":
-                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                fxmlFile = "/com/uninavigator/uninavigatorapp/instructorRequest.fxml";
                 break;
+        }
+        if (!isUserAuthorized(role)) {
+            showAlert("Authorization Error", "You are not authorized to access this page.");
+            return;
         }
 
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -138,6 +142,9 @@ public class Login {
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
     }
-
+    private boolean isUserAuthorized(String requiredRole) {
+        String currentUserRole = SessionContext.getCurrentUserRole();
+        return currentUserRole.equals(requiredRole) || currentUserRole.equals("Admin");
+    }
 
 }

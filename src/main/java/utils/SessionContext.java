@@ -21,4 +21,13 @@ public class SessionContext {
     public static void clearCurrentUser() {
         currentUser.remove();
     }
+
+    public static String getCurrentUserRole() {
+        User user = currentUser.get();
+        if (user != null) {
+            return user.getRole();
+        }
+        return "";
+    }
+
 }

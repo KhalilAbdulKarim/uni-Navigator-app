@@ -150,6 +150,13 @@ public class ProfileManagement {
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
     }
+    @FXML
+    public void handleVerifyAction(ActionEvent actionEvent) {
+        User currentUser = SessionContext.getCurrentUser();
+        userService.requestInstructorStatus(currentUser.getUserId());
+        showAlert("Request Sent", "Your request to become an instructor has been sent to the admin.", "INFORMATION");
+    }
+
 
 
 }

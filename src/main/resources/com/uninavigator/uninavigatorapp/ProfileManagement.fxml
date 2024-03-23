@@ -77,6 +77,6 @@
         </GridPane>
 
         <Label text="Are you an instructor ?" />
-        <Button mnemonicParsing="false" text="Verify" />
+        <Button mnemonicParsing="false" onAction="#handleVerifyAction" text="Verify" />
     </VBox>
 </ScrollPane>

@@ -1,12 +1,15 @@
 package com.uninavigator.uninavigatorapp.services;
 
 import DBConnection.DBHandler;
+import com.uninavigator.uninavigatorapp.UserRequestModel;
 import com.uninavigator.uninavigatorapp.controllers.User;
 import utils.SessionContext;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 //import org.mindrot.jbcrypt.BCrypt;
 
@@ -115,6 +118,77 @@ public class UserService {
 
         return false;
     }
+
+    public boolean requestInstructorStatus(int userId) {
+        String updateSQL = "UPDATE users SET RequestStatus = 'Requested' WHERE UserID = ?;";
+
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+
+            preparedStatement.setInt(1, userId);
+            int result = preparedStatement.executeUpdate();
+
+            return result > 0; // Return true if the update was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if there was an error
+        }
+    }
+
+    public boolean declineInstructorRequest(int userId) {
+        String sql = "UPDATE users SET Role = 'Student', RequestStatus = 'Declined' WHERE UserID = ?;";
+
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean approveInstructorRequest(int userId) {
+        String sql = "UPDATE users SET Role = 'Instructor', RequestStatus = 'Approved' WHERE UserID = ?;";
+
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<UserRequestModel> getAllInstructorRequests() {
+        String sql = "SELECT * FROM User WHERE RequestStatus = 'Requested';";
+        List<UserRequestModel> requests = new ArrayList<>();
+
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                UserRequestModel request = new UserRequestModel(
+                        rs.getInt("UserID"),
+                        rs.getString("Username"),
+                        rs.getString("Email"),
+                        rs.getString("FirstName"),
+                        rs.getString("LastName"),
+                        rs.getDate("DOB").toLocalDate()); // Assuming DOB is stored as a String
+                requests.add(request);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
 
 //    public User getUserDetailsByUsername(String currentUsername) {
 //        User user = null;

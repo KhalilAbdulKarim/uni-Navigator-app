@@ -40,6 +40,29 @@ public class UserService {
         }
     }
 
+    // update user , except his role
+    public boolean updateUser(int userId, String username, String email, String password, String firstName, String lastName, LocalDate dob) {
+        String updateSQL = "UPDATE User SET Username = ?, Email = ?, Password = ?, FirstName = ?, LastName = ?, DOB = ? WHERE UserID = ?;";
+
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, password);
+            preparedStatement.setString(4, firstName);
+            preparedStatement.setString(5, lastName);
+            preparedStatement.setDate(6, java.sql.Date.valueOf(dob));
+            preparedStatement.setInt(7, userId);
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public User authenticateUser (String username , String plainPassword){
         String query = "SELECT * FROM User WHERE Username = ? AND Password = ?";
 
@@ -72,34 +95,55 @@ public class UserService {
         return null;
     }
 
-    public User getUserDetailsByUsername(String currentUsername) {
-        User user = null;
-        String query = "SELECT * FROM User WHERE Username = ?";
 
-        try (Connection conn = dbHandler.connect();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+    public boolean doesUsernameExist(String username) {
+        String query = "SELECT COUNT(*) FROM User WHERE Username = ?";
 
-            pstmt.setString(1, currentUsername);
-            ResultSet rs = pstmt.executeQuery();
+        try (Connection connection = dbHandler.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            if (rs.next()) {
-                int userId = rs.getInt("UserID");
-                String username = rs.getString("Username");
-                String email = rs.getString("Email");
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
-                String role = rs.getString("Role");
-                // Format the DOB to a string for the User constructor
-                String dob = rs.getDate("DOB").toLocalDate().toString();
-
-                user = new User(userId, username, email, firstName, lastName, role, dob);
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // If count is greater than 0, then the username exists
+                    return resultSet.getInt(1) > 0;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return false;
     }
+
+//    public User getUserDetailsByUsername(String currentUsername) {
+//        User user = null;
+//        String query = "SELECT * FROM User WHERE Username = ?";
+//
+//        try (Connection conn = dbHandler.connect();
+//             PreparedStatement pstmt = conn.prepareStatement(query)) {
+//
+//            pstmt.setString(1, currentUsername);
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            if (rs.next()) {
+//                int userId = rs.getInt("UserID");
+//                String username = rs.getString("Username");
+//                String email = rs.getString("Email");
+//                String firstName = rs.getString("FirstName");
+//                String lastName = rs.getString("LastName");
+//                String role = rs.getString("Role");
+//                // Format the DOB to a string for the User constructor
+//                String dob = rs.getDate("DOB").toLocalDate().toString();
+//
+//                user = new User(userId, username, email, firstName, lastName, role, dob);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return user;
+//    }
 
 }
 

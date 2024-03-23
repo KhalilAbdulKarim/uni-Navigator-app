@@ -17,4 +17,8 @@ public class SessionContext {
     public static void clear() {
         currentUser.remove();
     }
+
+    public static void clearCurrentUser() {
+        currentUser.remove();
+    }
 }

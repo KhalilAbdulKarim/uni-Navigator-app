@@ -84,7 +84,7 @@ public class Login {
                 fxmlFile = "/com/uninavigator/uninavigatorapp/studentDashboard.fxml";
                 break;
             case "Instructor":
-                fxmlFile = "/com/uninavigator/uninavigatorapp/userTable.fxml";
+                fxmlFile = "/com/uninavigator/uninavigatorapp/studentDashboard.fxml";
                 break;
             case "Admin":
                 fxmlFile = "/com/uninavigator/uninavigatorapp/instructorRequest.fxml";
@@ -100,7 +100,7 @@ public class Login {
             stageHandler = new StageHandler(currentStage);
         }
         try {
-            stageHandler.switchScene(fxmlFile, "UNI-NAVIGATOR - Dashboard");
+            stageHandler.switchScene(fxmlFile, "UNI-NAVIGATOR");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Navigation Error", "Failed to navigate to the dashboard.");

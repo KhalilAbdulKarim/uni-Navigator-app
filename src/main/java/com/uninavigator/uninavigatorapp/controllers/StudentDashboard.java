@@ -1,24 +1,33 @@
 package com.uninavigator.uninavigatorapp.controllers;
 
+import DBConnection.DBHandler;
+import com.uninavigator.uninavigatorapp.services.CourseService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import utils.SessionContext;
 import utils.StageHandler;
 import javafx.application.Platform;
 import javafx.scene.control.TableColumn;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDashboard {
     @FXML
     private StackPane contentArea;
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<Course> coursesTableView;
     @FXML
@@ -26,47 +35,61 @@ public class StudentDashboard {
     @FXML
     private TableColumn<Course, String> courseNameColumn;
     @FXML
-    private TableColumn<Course, Integer> instructorIdColumn;
+    private TableColumn<Course, String> instructorNameColumn;
     @FXML
     private TableColumn<Course, String> scheduleColumn;
     @FXML
     private TableColumn<Course, String> descriptionColumn;
-//    StageHandler stageHandler;
+    @FXML
+    private TableColumn<Course, Integer> capacityColumn;
+    @FXML
+    private TableColumn<Course, String> startDateColumn;
+    @FXML
+    private TableColumn<Course, String> endDateColumn;
+    private CourseService courseService;
+
+    public StudentDashboard() {
+        this.courseService = new CourseService(DBHandler.getInstance());
+    }
 
     @FXML
     private void initialize() {
-        // Initialize the TableView columns and other necessary setup
         setupCoursesTableView();
-
-        // Initially, you may want to load the courses when the dashboard loads
-        // showCoursesTable(); // Uncomment if you want the table to show immediately on dashboard load
+        showCoursesTable();
     }
 
     private void setupCoursesTableView() {
         courseIdColumn.setCellValueFactory(new PropertyValueFactory<>("courseId"));
         courseNameColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        instructorIdColumn.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
+        instructorNameColumn.setCellValueFactory(new PropertyValueFactory<>("instructorName"));
         scheduleColumn.setCellValueFactory(new PropertyValueFactory<>("schedule"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
     }
 
     public void showCoursesTable() {
-        // Set visibility and managed properties to true to display the table
         coursesTableView.setVisible(true);
         coursesTableView.setManaged(true);
-
-        // Fetch and display the course data
-        coursesTableView.setItems(getCoursesForStudent());
+        coursesTableView.setItems(getCoursesForUser());
     }
 
-    // Dummy method to simulate fetching courses for the student
-    private ObservableList<Course> getCoursesForStudent() {
-        // This should be replaced with actual data retrieval logic
-        ObservableList<Course> courses = FXCollections.observableArrayList();
-        // Add courses to the list...
-        return courses;
+    private ObservableList<Course> getCoursesForUser() {
+        List<Course> coursesList = new ArrayList<>();
+        User currentUser = SessionContext.getCurrentUser();
+
+        if (currentUser != null) {
+            if (currentUser.getRole().equals("Student")) {
+                coursesList = courseService.getAllCourses();
+            } else if (currentUser.getRole().equals("Instructor")) {
+                coursesList = courseService.getCoursesByInstructor(currentUser.getUserId());
+            }
+        }
+        return FXCollections.observableArrayList(coursesList);
     }
+
 
     @FXML
     public void loadCourseEnrollment(ActionEvent actionEvent) {
@@ -122,5 +145,27 @@ public class StudentDashboard {
     public void loadDashboard(ActionEvent actionEvent) {
         contentArea.getChildren().clear();
         showCoursesTable();
+    }
+
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        String searchQuery = searchField.getText();
+        if (!searchQuery.isEmpty()) {
+            Course searchedCourse = courseService.getCourseByName(searchQuery);
+            if (searchedCourse != null) {
+                ObservableList<Course> courseList = FXCollections.observableArrayList(searchedCourse);
+                coursesTableView.setItems(courseList);
+            } else {
+                coursesTableView.setItems(FXCollections.observableArrayList());
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Search Result");
+                alert.setHeaderText(null);
+                alert.setContentText("No course was found matching your search.");
+                alert.showAndWait();
+            }
+        } else {
+            showCoursesTable();
+        }
     }
 }

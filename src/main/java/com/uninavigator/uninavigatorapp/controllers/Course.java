@@ -2,65 +2,56 @@ package com.uninavigator.uninavigatorapp.controllers;
 import java.util.Date;
 
 public class Course {
-    private final int CourseID;
-    private final String CourseName;
+    private final int courseId;
+    private final String courseName;
+    private final String schedule;
+    private final String description;
+    private final int capacity;
+    private final Date startDate;
+    private final Date endDate;
+    private final String instructorName;
 
-    private final int InstructorID;
-
-    private final String Schedule;
-
-    private final String Description;
-
-    private final int Capacity;
-
-    private final Date StartDate;
-
-    private final Date EndDate;
-
-
-    public Course(int courseID, String courseName, int instructorID, String schedule, String description, int capacity, Date startDate, Date endDate) {
-        this.CourseID = courseID;
-        this.CourseName = courseName;
-        this.InstructorID = instructorID;
-        this.Schedule = schedule;
-        this.Description = description;
-        this.Capacity = capacity;
-        this.StartDate = startDate;
-        this.EndDate = endDate;
+    public Course(int courseId, String courseName,String instructorName, String schedule, String description, int capacity, Date startDate, Date endDate) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.instructorName = instructorName;
+        this.schedule = schedule;
+        this.description = description;
+        this.capacity = capacity;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public int getCourseID() {
-        return CourseID;
+    public int getCourseId() {
+        return courseId;
     }
 
     public String getCourseName() {
-        return CourseName;
+        return courseName;
     }
 
-    public int getInstructorID() {
-        return InstructorID;
+    public String getInstructorName() {
+        return instructorName;
     }
 
     public String getSchedule() {
-        return Schedule;
+        return schedule;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public int getCapacity() {
-        return Capacity;
+        return capacity;
     }
 
     public Date getStartDate() {
-        return StartDate;
+        return startDate;
     }
 
     public Date getEndDate() {
-        return EndDate;
+        return endDate;
     }
-
-
 }
 

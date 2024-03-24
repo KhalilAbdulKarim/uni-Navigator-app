@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="contentArea" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
+<AnchorPane fx:id="contentArea" prefHeight="400.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
 
     <VBox>
-        <TableView fx:id="requestsTable" prefHeight="368.0" prefWidth="600.0">
+        <TableView fx:id="requestsTable" prefHeight="368.0" prefWidth="764.0">
             <columns>
                 <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="User ID">
                     <cellValueFactory><PropertyValueFactory property="userId" /></cellValueFactory>
@@ -19,21 +19,20 @@
                 <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username">
                     <cellValueFactory><PropertyValueFactory property="username" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="firstNameColumn" prefWidth="100.0" text="First Name">
+                <TableColumn fx:id="firstNameColumn" prefWidth="105.0" text="First Name">
                     <cellValueFactory><PropertyValueFactory property="firstName" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="lastNameColumn" prefWidth="100.0" text="Last Name">
+                <TableColumn fx:id="lastNameColumn" prefWidth="103.0" text="Last Name">
                     <cellValueFactory><PropertyValueFactory property="lastName" /></cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="dobColumn" prefWidth="100.0" text="DOB">
                     <cellValueFactory><PropertyValueFactory property="dob" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="emailColumn" prefWidth="150.0" text="Email">
+                <TableColumn fx:id="emailColumn" prefWidth="157.0" text="Email">
                     <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
                 </TableColumn>
                 <!-- More columns for other user details as necessary -->
-                <TableColumn fx:id="actionColumn" prefWidth="200.0" text="Actions">
-                    <cellValueFactory><PropertyValueFactory property="DUMMY" /></cellValueFactory>
+                <TableColumn fx:id="actionColumn" prefWidth="150.0" text="Actions">
                 </TableColumn>
             </columns>
         </TableView>

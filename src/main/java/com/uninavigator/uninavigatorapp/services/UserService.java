@@ -120,7 +120,7 @@ public class UserService {
     }
 
     public boolean requestInstructorStatus(int userId) {
-        String updateSQL = "UPDATE users SET RequestStatus = 'Requested' WHERE UserID = ?;";
+        String updateSQL = "UPDATE User SET RequestStatus = 'Requested' WHERE UserID = ?;";
 
         try (Connection connection = dbHandler.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
@@ -136,7 +136,7 @@ public class UserService {
     }
 
     public boolean declineInstructorRequest(int userId) {
-        String sql = "UPDATE users SET Role = 'Student', RequestStatus = 'Declined' WHERE UserID = ?;";
+        String sql = "UPDATE User SET Role = 'Student', RequestStatus = 'Declined' WHERE UserID = ?;";
 
         try (Connection connection = dbHandler.connect();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -151,7 +151,7 @@ public class UserService {
     }
 
     public boolean approveInstructorRequest(int userId) {
-        String sql = "UPDATE users SET Role = 'Instructor', RequestStatus = 'Approved' WHERE UserID = ?;";
+        String sql = "UPDATE User SET Role = 'Instructor', RequestStatus = 'Approved' WHERE UserID = ?;";
 
         try (Connection connection = dbHandler.connect();
              PreparedStatement stmt = connection.prepareStatement(sql)) {

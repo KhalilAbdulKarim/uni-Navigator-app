@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane prefHeight="620.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.StudentDashboard">
+
+<BorderPane  prefHeight="620.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.StudentDashboard">
     <top>
         <MenuBar prefHeight="27.0" prefWidth="839.0">
             <menus>
@@ -27,20 +27,16 @@
                         <MenuItem onAction="#loadCourseEnrollment" text="Course Enrollment" />
                         <MenuItem onAction="#loadAcademicRecords" text="Academic Records" />
                         <MenuItem onAction="#loadProfile" text="Profile" />
-                        <MenuItem onAction="#loadDashboard" text="Dashboard"/>
+                        <MenuItem onAction="#loadDashboard" text="Dashboard" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
-    <center>
-        <VBox>
-            <HBox spacing="10" alignment="center">
-                <TextField fx:id="searchField" prefWidth="200" promptText="Search by course name..."/>
-                <Button text="Search" onAction="#handleSearch"/>
-            </HBox>
-        <StackPane fx:id="contentArea">
-            <TableView fx:id="coursesTableView" visible="true" managed="true">
+   <center>
+       <StackPane fx:id="contentArea">
+       <VBox>
+            <TableView fx:id="coursesTableView" managed="true" prefHeight="583.0" prefWidth="948.0" visible="true">
                 <columns>
                     <TableColumn fx:id="courseIdColumn" text="Course ID">
                         <cellValueFactory><PropertyValueFactory property="courseId" /></cellValueFactory>
@@ -48,28 +44,31 @@
                     <TableColumn fx:id="courseNameColumn" text="Course Name">
                         <cellValueFactory><PropertyValueFactory property="courseName" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="instructorNameColumn" text="Instructor Name">
+                    <TableColumn fx:id="instructorNameColumn" prefWidth="111.0" text="Instructor Name">
                         <cellValueFactory><PropertyValueFactory property="instructorName" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="scheduleColumn" text="Schedule">
+                    <TableColumn fx:id="scheduleColumn" prefWidth="109.0" text="Schedule">
                         <cellValueFactory><PropertyValueFactory property="schedule" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="descriptionColumn" text="Description">
+                    <TableColumn fx:id="descriptionColumn" prefWidth="126.0" text="Description">
                         <cellValueFactory><PropertyValueFactory property="description" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="capacityColumn" text="Capacity">
+                    <TableColumn fx:id="capacityColumn" prefWidth="118.0" text="Capacity">
                         <cellValueFactory><PropertyValueFactory property="capacity" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="startDateColumn" text="Start Date">
+                    <TableColumn fx:id="startDateColumn" prefWidth="184.0" text="Start Date">
                         <cellValueFactory><PropertyValueFactory property="startDate" /></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="endDateColumn" text="End Date">
+                    <TableColumn fx:id="endDateColumn" prefWidth="140.0" text="End Date">
                         <cellValueFactory><PropertyValueFactory property="endDate" /></cellValueFactory>
                     </TableColumn>
-
                 </columns>
             </TableView>
-        </StackPane>
+                <HBox alignment="center" spacing="10" StackPane.alignment="TOP_CENTER">
+                    <TextField fx:id="searchField" prefWidth="200" promptText="Search by course name..."/>
+                    <Button onAction="#handleSearch" text="Search"/>
+                </HBox>
         </VBox>
-    </center>
+       </StackPane>
+   </center>
 </BorderPane>

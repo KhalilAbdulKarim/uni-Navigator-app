@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.ScrollPane?>
-<AnchorPane prefHeight="480.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileView">
+<AnchorPane prefHeight="480.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileView">
     <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="64.0">
         <VBox spacing="30">
             <padding>
@@ -27,16 +27,13 @@
         </VBox>
     </ScrollPane>
 
-
     <Button fx:id="editProfileButton" onAction="#handleEditAction" text="Edit Profile" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="260" AnchorPane.rightAnchor="260" />
-
 
     <Label layoutX="263.0" layoutY="35.0" text="PROFILE">
         <font>
             <Font name="Beirut Regular" size="16.0" />
         </font>
     </Label>
-
 
     <Button fx:id="backButton" onAction="#handleBackAction" mnemonicParsing="false" text="BACK" layoutX="48.0" layoutY="33.0" />
 </AnchorPane>

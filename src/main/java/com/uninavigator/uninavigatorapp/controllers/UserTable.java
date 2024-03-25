@@ -2,9 +2,15 @@ package com.uninavigator.uninavigatorapp.controllers;
 import DBConnection.DBHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +18,7 @@ import java.sql.SQLException;
 
 
 public class UserTable {
+    @FXML private AnchorPane contentArea;
     @FXML private TableView<User> userTable;
     @FXML private TableColumn<User, Number> userIdColumn;
     @FXML private TableColumn<User, String> usernameColumn;
@@ -60,5 +67,20 @@ public class UserTable {
 
         userTable.setItems(userData);
     }
+
+    public void loadInstructorsList(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/instructorRequest.fxml"));
+            Node profileView = loader.load();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(profileView);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
 }
+
 

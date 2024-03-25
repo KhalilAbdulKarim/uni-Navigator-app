@@ -14,32 +14,6 @@ public class StageHandler {
         this.stage = stage;
     }
 
-    public void openNewStage(String fxmlFile, String title, boolean modal) {
-        try {
-            URL fxmlUrl = getClass().getResource(fxmlFile);
-            if (fxmlUrl == null) {
-                throw new IOException("Cannot find FXML file: " + fxmlFile);
-            }
-
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(new Scene(root));
-
-            if (modal) {
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(stage);
-            }
-
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
     public void switchScene(String fxmlPath, String title) {
         try {
             URL fxmlUrl = getClass().getResource(fxmlPath);

@@ -8,11 +8,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import utils.SessionContext;
 import utils.StageHandler;
 import javafx.application.Platform;
@@ -115,8 +118,7 @@ public class StudentDashboard {
             Node profileView = loader.load();
             contentArea.getChildren().clear();
             contentArea.getChildren().add(profileView);
-//            Node view = loader.load();
-//            contentArea.getChildren().setAll(view);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,6 +126,7 @@ public class StudentDashboard {
         }
 
     }
+
 
     public void loadAcademicRecords(ActionEvent actionEvent) {
 //        try {
@@ -139,13 +142,25 @@ public class StudentDashboard {
     }
 
     public void handleExit(ActionEvent actionEvent) {
-       Platform.exit();
+        Platform.exit();
     }
 
-    public void loadDashboard(ActionEvent actionEvent) {
-        contentArea.getChildren().clear();
-        showCoursesTable();
+    public void loadDashboard(ActionEvent actionEvent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/studentDashboard.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            stage.setTitle("Dashboard");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleSearch(ActionEvent event) {
@@ -169,3 +184,4 @@ public class StudentDashboard {
         }
     }
 }
+

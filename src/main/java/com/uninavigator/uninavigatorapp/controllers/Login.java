@@ -21,18 +21,13 @@ import java.io.IOException;
 public class Login {
     @FXML
     private TextField usernameTextField;
-
     @FXML
     private CheckBox showPasswordCheckbox;
-
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private TextField plainTextField;
-
     private StageHandler stageHandler;
-
 
     private UserService userService = new UserService(DBHandler.getInstance());
 
@@ -100,7 +95,7 @@ public class Login {
             stageHandler = new StageHandler(currentStage);
         }
         try {
-            stageHandler.switchScene(fxmlFile, "UNI-NAVIGATOR");
+            stageHandler.switchScene(fxmlFile, "uni-Navigator");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Navigation Error", "Failed to navigate to the dashboard.");
@@ -146,5 +141,4 @@ public class Login {
         String currentUserRole = SessionContext.getCurrentUserRole();
         return currentUserRole.equals(requiredRole) || currentUserRole.equals("Admin");
     }
-
 }

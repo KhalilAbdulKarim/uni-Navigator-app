@@ -23,6 +23,7 @@ public class InstructorRequests {
     public Button refreshButton;
     public Button myProfile;
     public AnchorPane contentArea;
+    public Button usersTable;
     @FXML
     private TableColumn<UserRequestModel, Number> userIdColumn;
     @FXML
@@ -141,5 +142,19 @@ public class InstructorRequests {
         }
 
     }
+    public void loadUsersTable(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/userTable.fxml"));
+            Node profileView = loader.load();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(profileView);
+//            Node view = loader.load();
+//            contentArea.getChildren().setAll(view);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
 }

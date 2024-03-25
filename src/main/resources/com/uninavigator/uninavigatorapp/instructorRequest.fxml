@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="contentArea" prefHeight="400.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
-
+<AnchorPane fx:id="contentArea" prefHeight="350.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
     <VBox>
         <TableView fx:id="requestsTable" prefHeight="368.0" prefWidth="764.0">
             <columns>
@@ -31,7 +30,6 @@
                 <TableColumn fx:id="emailColumn" prefWidth="157.0" text="Email">
                     <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
                 </TableColumn>
-                <!-- More columns for other user details as necessary -->
                 <TableColumn fx:id="actionColumn" prefWidth="150.0" text="Actions">
                 </TableColumn>
             </columns>
@@ -39,8 +37,7 @@
         <HBox>
             <Button fx:id="refreshButton" onAction="#handleRefreshAction" text="Refresh" />
             <Button fx:id="myProfile" onAction="#loadProfile" text="My Profile" />
-
-
+            <Button fx:id="usersTable" onAction="#loadUsersTable" text="Users List" />
         </HBox>
     </VBox>
 </AnchorPane>

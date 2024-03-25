@@ -42,7 +42,6 @@ public class Register {
         LocalDate dob = dobDatePicker.getValue();
 
         if (!validateRegistrationFields(username, email, password, firstName, lastName, dob)) {
-            // Validation failed, exit the method to prevent user creation
             return;
         }
         String role = "Student";
@@ -60,7 +59,7 @@ public class Register {
                     alert.setHeaderText(null);
                     alert.setContentText("You have registered successfully");
                     alert.showAndWait();
-                    stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "Login");
+                    stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,7 +75,7 @@ public class Register {
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             if (stageHandler == null) {
                 stageHandler = new StageHandler(currentStage);
-                stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "Login");
+                stageHandler.switchScene("/com/uninavigator/uninavigatorapp/login.fxml", "uni-Navigator");
             }
         }
         catch(Exception e){

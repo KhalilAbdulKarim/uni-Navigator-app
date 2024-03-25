@@ -16,51 +16,41 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="413.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.Register">
+<AnchorPane prefHeight="413.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.Register">
 
     <VBox alignment="CENTER" layoutX="69.0" layoutY="53.0" spacing="10">
         <GridPane alignment="CENTER" hgap="10" prefHeight="279.0" prefWidth="479.0" vgap="10">
             <padding>
                 <Insets bottom="10" left="25" right="25" top="25" />
             </padding>
-   
-               <!-- Row 0 -->
+
             <Label prefHeight="17.0" prefWidth="65.0" text="Username:" />
             <TextField fx:id="usernameTextField" GridPane.columnIndex="1" />
-   
-            <!-- Row 1 -->
+
             <Label text="Email:" GridPane.rowIndex="1" />
             <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-   
-               <!-- Row 2 -->
+
             <Label text="Password:" GridPane.rowIndex="2" />
             <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <CheckBox fx:id="showPasswordCheckbox" text="Show Password" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <TextField fx:id="plainTextField" managed="false" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-   
-   
-   
-            <!-- Row 3 -->
+
             <Label text="First Name:" GridPane.rowIndex="3" />
             <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-   
-               <!-- Row 4 -->
+
             <Label text="Last Name:" GridPane.rowIndex="4" />
             <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-   
-            <!-- Row 5: DOB -->
+
             <Label text="Date of Birth:" GridPane.rowIndex="5" />
             <DatePicker fx:id="dobDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-   
-   
-            <!-- Registration Button -->
-                        <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#handleRegisterButtonAction"/>
-         <columnConstraints>
+
+            <Button fx:id="registerButton" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#handleRegisterButtonAction"/>
+            <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
+            </columnConstraints>
+            <rowConstraints>
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

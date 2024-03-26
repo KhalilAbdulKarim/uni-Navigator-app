@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="contentArea" prefHeight="350.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
+<AnchorPane fx:id="contentArea" prefHeight="520.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.InstructorRequests">
     <VBox>
         <TableView fx:id="requestsTable" prefHeight="368.0" prefWidth="764.0">
             <columns>

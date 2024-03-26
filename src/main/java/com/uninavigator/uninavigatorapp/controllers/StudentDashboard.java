@@ -84,9 +84,9 @@ public class StudentDashboard {
         User currentUser = SessionContext.getCurrentUser();
 
         if (currentUser != null) {
-            if (currentUser.getRole().equals("Student")) {
+            if ("Admin".equals(currentUser.getRole()) || "Student".equals(currentUser.getRole())) {
                 coursesList = courseService.getAllCourses();
-            } else if (currentUser.getRole().equals("Instructor")) {
+            } else if ("Instructor".equals(currentUser.getRole())) {
                 coursesList = courseService.getCoursesByInstructor(currentUser.getUserId());
             }
         }
@@ -127,7 +127,6 @@ public class StudentDashboard {
 
     }
 
-
     public void loadAcademicRecords(ActionEvent actionEvent) {
 //        try {
 //            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/.fxml"));
@@ -144,7 +143,6 @@ public class StudentDashboard {
     public void handleExit(ActionEvent actionEvent) {
         Platform.exit();
     }
-
     public void loadDashboard(ActionEvent actionEvent){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/studentDashboard.fxml"));
@@ -160,7 +158,6 @@ public class StudentDashboard {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void handleSearch(ActionEvent event) {
@@ -181,6 +178,21 @@ public class StudentDashboard {
             }
         } else {
             showCoursesTable();
+        }
+    }
+    public void handleLogout(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            stage.setTitle("uni-Navigator");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

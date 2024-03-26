@@ -19,6 +19,8 @@ import java.io.IOException;
 
 public class ProfileView {
 
+    @FXML
+    private Button instructorRequestButton;
     public Button editProfileButton;
     public Label dobLabel;
     public Label firstNameLabel;
@@ -70,6 +72,11 @@ public class ProfileView {
     public void initialize() {
         User currentUser = SessionContext.getCurrentUser();
 
+        if (currentUser != null && "Admin".equals(currentUser.getRole())) {
+            instructorRequestButton.setVisible(true);
+
+        }
+
         if (currentUser != null) {
             usernameLabel.setText("Username: " + currentUser.getUsername());
             emailLabel.setText("Email: " + currentUser.getEmail());
@@ -79,12 +86,22 @@ public class ProfileView {
             roleLabel.setText("Role: " + currentUser.getRole());
         } else {
             showAlert("Session Error", "No user is currently logged in.");
-            // Optionally navigate back to login screen or handle the error as needed
-        }
 
+        }
 
 
     }
 
+    public void InstructorButtonHandling(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/instructorRequest.fxml"));
+            Parent instructorRequestsView = loader.load();
 
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(instructorRequestsView));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

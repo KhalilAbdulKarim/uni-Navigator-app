@@ -8,8 +8,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="contentArea" prefHeight="438.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml" fx:controller="com.uninavigator.uninavigatorapp.controllers.UserTable">
-    <VBox>
-    <TableView fx:id="userTable" layoutY="-1.0" prefHeight="438.0" prefWidth="720.0">
+    <VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <TableView fx:id="userTable" layoutY="-1.0" prefHeight="438.0" prefWidth="720.0" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="userIdColumn" prefWidth="56.0" text="User ID" />
             <TableColumn fx:id="usernameColumn" prefWidth="83.0" text="Username" />
@@ -20,8 +20,8 @@
             <TableColumn fx:id="dobColumn" prefWidth="110.0" text="DOB" />
         </columns>
     </TableView>
-        <HBox>
-    <Button layoutX="310.0" layoutY="403.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Instructors List" onAction="#loadInstructorsList"/>
-        </HBox>
+    <HBox alignment="CENTER">
+        <Button layoutX="310.0" layoutY="403.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Instructor Requests List" onAction="#loadInstructorsList"/>
+    </HBox>
     </VBox>
 </AnchorPane>

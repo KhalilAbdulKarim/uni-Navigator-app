@@ -20,6 +20,7 @@
                 <Menu text="File">
                     <items>
                         <MenuItem onAction="#handleExit" text="Exit" />
+                        <MenuItem onAction= "#handleLogout" text="Log Out"/>
                     </items>
                 </Menu>
                 <Menu text="Navigation">

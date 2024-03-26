@@ -17,6 +17,11 @@ import utils.StageHandler;
 
 import java.io.IOException;
 
+/**
+ * Controller for the profile view.
+ * Displays user profile information and provides navigation options.
+ */
+
 public class ProfileView {
 
     @FXML
@@ -33,6 +38,11 @@ public class ProfileView {
     private DBHandler dbHandler;
     private UserService userService = new UserService(dbHandler);
 
+    /**
+     * Handles the action to edit the current user's profile.
+     * @param actionEvent The event that triggered the action.
+     */
+
     public void handleEditAction(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if (stageHandler == null) {
@@ -45,6 +55,11 @@ public class ProfileView {
             showAlert("Navigation Error", "Failed to navigate to Edit Profile.");
         }
     }
+
+    /**
+     * Handles the action to return to the dashboard.
+     * @param actionEvent The event that triggered the action.
+     */
 
     public void handleBackAction(ActionEvent actionEvent) {
         try
@@ -60,6 +75,12 @@ public class ProfileView {
         }
     }
 
+    /**
+     * Displays an alert dialog.
+     * @param title The title of the alert.
+     * @param content The message content of the alert.
+     */
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -67,6 +88,11 @@ public class ProfileView {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    /**
+     * Initializes the controller.
+     * Sets visibility of certain UI elements based on user role and loads user profile data.
+     */
 
     @FXML
     public void initialize() {
@@ -91,6 +117,11 @@ public class ProfileView {
 
 
     }
+
+    /**
+     * Handles the action to view instructor requests (Admin role only).
+     * @param actionEvent The event that triggered the action.
+     */
 
     public void InstructorButtonHandling(ActionEvent actionEvent) {
         try {

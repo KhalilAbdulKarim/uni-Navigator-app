@@ -16,6 +16,11 @@ import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/**
+ * Controller class for the registration view.
+ * Handles user registration functionality including form validation and user creation.
+ */
+
 public class Register {
 
     @FXML private TextField plainTextField;
@@ -32,6 +37,12 @@ public class Register {
     private final UserService userService = new UserService(DBHandler.getInstance());
 
 
+    /**
+     * Handles the register button action. Validates form fields, creates a new user account,
+     * and navigates to the login view upon successful registration.
+     * @param actionEvent The event that triggered the action.
+     */
+
     @FXML
     private void handleRegisterButtonAction(ActionEvent actionEvent) {
         String username = usernameTextField.getText();
@@ -41,14 +52,17 @@ public class Register {
         String lastName = lastNameTextField.getText();
         LocalDate dob = dobDatePicker.getValue();
 
+        // Validate registration fields
         if (!validateRegistrationFields(username, email, password, firstName, lastName, dob)) {
             return;
         }
         String role = "Student";
 
+        // Attempt to create a new user with the provided details
         boolean success = userService.createUser(username, password, email, firstName, lastName, role, dob);
 
         if (success) {
+            // Registration successful, navigate to the login view
 
             try {
                 Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -66,9 +80,15 @@ public class Register {
 
             }
         } else {
+            // Registration failed, show error message
             showAlert("Registration Error", "There was an error with your registration. Please try again.");
         }
     }
+
+    /**
+     * After the user logs in successfully , will be redirected to Dashboard
+     * @param actionEvent The event that triggered the action.
+     */
 
     public void handleLoginAction(ActionEvent actionEvent) {
         try {
@@ -85,6 +105,10 @@ public class Register {
     }
 
 
+    /**
+     * Initializes the controller. Sets up the password visibility toggle.
+     */
+
     @FXML
     public void initialize() {
         // Bind properties of plainTextField to the inverse of the CheckBox's selected property
@@ -98,6 +122,11 @@ public class Register {
         // Synchronize the text in both fields
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
     }
+
+    /**
+     * Validates the registration fields. Checks for empty fields and pattern matching for email, password, and names.
+     * @return true if validation succeeds, false otherwise.
+     */
 
     public boolean validateRegistrationFields(String username, String email, String password, String firstName, String lastName, LocalDate dob) {
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || dob == null) {
@@ -124,6 +153,13 @@ public class Register {
 
         return true;
     }
+
+    /**
+     * Displays an alert dialog with a specified title and content.
+     * @param title The title of the alert dialog.
+     * @param content The message content of the alert dialog.
+     * @param alertType The type of alert (e.g., ERROR, INFORMATION).
+     */
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

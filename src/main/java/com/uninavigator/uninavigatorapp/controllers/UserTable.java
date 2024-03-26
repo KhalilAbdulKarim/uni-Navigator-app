@@ -17,6 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/**
+ * Controller class for the UserTable view.
+ * Manages the display and interaction with the table of users within the application.
+ */
+
 public class UserTable {
     @FXML private AnchorPane contentArea;
     @FXML private TableView<User> userTable;
@@ -27,6 +32,11 @@ public class UserTable {
     @FXML private TableColumn<User, String> lastNameColumn;
     @FXML private TableColumn<User, String> roleColumn;
     @FXML private TableColumn<User, String> dobColumn;
+
+    /**
+     * Initializes the UserTable controller.
+     * Sets up the table columns and loads the user data into the table.
+     */
 
     @FXML
     private void initialize() {
@@ -40,6 +50,11 @@ public class UserTable {
 
         loadUserData();
     }
+
+    /**
+     * Loads user data from the database and adds it to the user table.
+     * Queries the database for all users and constructs User objects to display in the table.
+     */
 
     private void loadUserData() {
         ObservableList<User> userData = FXCollections.observableArrayList();
@@ -67,6 +82,13 @@ public class UserTable {
 
         userTable.setItems(userData);
     }
+
+    /**
+     * Handles the event to load the instructor request list view.
+     * Clears the current content area and loads the view from a FXML file.
+     *
+     * @param actionEvent The action event triggered by the user's interaction.
+     */
 
     public void loadInstructorsList(ActionEvent actionEvent) {
         try {

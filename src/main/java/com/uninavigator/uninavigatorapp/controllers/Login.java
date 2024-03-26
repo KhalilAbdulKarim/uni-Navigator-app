@@ -18,6 +18,11 @@ import utils.SessionContext;
 
 import java.io.IOException;
 
+/**
+ * Controller for the login view.
+ * Handles user authentication, password visibility toggle, and navigation based on user role.
+ */
+
 public class Login {
     @FXML
     private TextField usernameTextField;
@@ -30,6 +35,12 @@ public class Login {
     private StageHandler stageHandler;
 
     private UserService userService = new UserService(DBHandler.getInstance());
+
+    /**
+     * Attempts to authenticate the user. If successful, navigates to the appropriate dashboard
+     * based on the user's role. Shows an alert on authentication failure or error.
+     * @param actionEvent The action event triggered by the login button.
+     */
 
     public void handleLoginAction(ActionEvent actionEvent) {
         String username = usernameTextField.getText().trim();
@@ -56,6 +67,11 @@ public class Login {
 
     }
 
+    /**
+     * Navigates to the registration view.
+     * @param actionEvent The action event triggered by the register button.
+     */
+
     public void handleRegisterAction(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/register.fxml"));
@@ -71,6 +87,11 @@ public class Login {
         }
     }
 
+    /**
+     * Navigates the user to their respective dashboard based on their role.
+     * @param role The role of the authenticated user.
+     * @param actionEvent The action event for context.
+     */
 
     private void navigate(String role, ActionEvent actionEvent) {
         String fxmlFile = "";
@@ -102,7 +123,11 @@ public class Login {
         }
     }
 
-
+    /**
+     * Shows an alert dialog with the given title and content.
+     * @param title The title for the alert dialog.
+     * @param content The content/message for the alert dialog.
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -111,7 +136,9 @@ public class Login {
         alert.showAndWait();
     }
 
-
+    /**
+     * Initializes the controller. Sets up the password visibility toggle.
+     */
     @FXML
     public void initialize() {
         // Sync the password visibility with the checkbox
@@ -137,6 +164,13 @@ public class Login {
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
     }
+
+    /**
+     * Checks if the current user has the required role for an action.
+     * @param requiredRole The role required to perform the action.
+     * @return true if the user has the required role or is an admin; false otherwise.
+     */
+
     private boolean isUserAuthorized(String requiredRole) {
         String currentUserRole = SessionContext.getCurrentUserRole();
         return currentUserRole.equals(requiredRole) || currentUserRole.equals("Admin");

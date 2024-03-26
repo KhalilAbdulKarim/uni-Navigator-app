@@ -6,12 +6,20 @@ import java.util.List;
 import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.controllers.Course;
 
+/**
+ * This service class is responsible for handling all operations related to the Course entity.
+ */
 public class CourseService {
     private DBHandler dbHandler;
     public CourseService(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
     }
 
+    /**
+     * Retrieves all courses from the database, including instructor names.
+     *
+     * @return A list of all courses.
+     */
     public List<Course> getAllCourses() {
         List<Course> courseList = new ArrayList<>();
         String query = "SELECT Course.CourseID, Course.CourseName, CONCAT(User.firstName, ' ', User.lastName) AS InstructorName, " +
@@ -38,6 +46,14 @@ public class CourseService {
         }
         return courseList;
     }
+
+    /**
+     * Retrieves all courses taught by a specific instructor.
+     *
+     * @param instructorId The ID of the instructor.
+     * @return A list of courses taught by the instructor.
+     */
+
     public List<Course> getCoursesByInstructor(int instructorId) {
         List<Course> courseList = new ArrayList<>();
         String query = "SELECT c.CourseID, c.CourseName, CONCAT(u.firstName, ' ', u.lastName) AS InstructorName, c.Schedule, c.Description, c.Capacity, c.StartDate, c.EndDate "
@@ -67,6 +83,12 @@ public class CourseService {
         return courseList;
     }
 
+    /**
+     * Searches for a course by its name.
+     *
+     * @param courseName The name or partial name of the course.
+     * @return The found course or null if not found.
+     */
 
     public Course getCourseByName(String courseName) {
         String query = "SELECT c.CourseID, c.CourseName, CONCAT(u.firstName, ' ', u.lastName) AS InstructorName, " +
@@ -97,7 +119,17 @@ public class CourseService {
         return null;
     }
 
-
+    /**
+     *
+     * @param courseName
+     * @param instructorId
+     * @param schedule
+     * @param description
+     * @param capacity
+     * @param startDate
+     * @param endDate
+     * @return true if the course is been created sucessfully , false otherwise
+     */
     public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, Date startDate, Date endDate) {
         String query = "INSERT INTO Course (CourseName, InstructorID, Schedule, Description, Capacity, StartDate, EndDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbHandler.connect();
@@ -118,6 +150,18 @@ public class CourseService {
         }
     }
 
+    /**
+     *
+     * @param courseId
+     * @param courseName
+     * @param instructorId
+     * @param schedule
+     * @param description
+     * @param capacity
+     * @param startDate
+     * @param endDate
+     * @return true if the course is been updated sucessfully , false otherwise
+     */
 
     public boolean updateCourse(int courseId, String courseName, int instructorId, String schedule, String description, int capacity, Date startDate, Date endDate) {
         String query = "UPDATE Course SET CourseName = ?, InstructorID = ?, Schedule = ?, Description = ?, Capacity = ?, StartDate = ?, EndDate = ? WHERE CourseID = ?";
@@ -140,6 +184,11 @@ public class CourseService {
         }
     }
 
+    /**
+     *
+     * @param courseId
+     * @return true if the course is been deleted sucessfully , false otherwise
+     */
     public boolean deleteCourse(int courseId) {
         String query = "DELETE FROM Course WHERE CourseID = ?";
         try (Connection conn = dbHandler.connect();

@@ -12,6 +12,11 @@ import utils.StageHandler;
 
 import java.time.LocalDate;
 
+/**
+ * Controller for managing user profile updates.
+ * Allows users to edit and save their profile information.
+ */
+
 public class ProfileManagement {
 
     @FXML
@@ -34,12 +39,22 @@ public class ProfileManagement {
 
     private UserService userService;
 
+    /**
+     * Constructor initializes the UserService with a database handler instance.
+     */
+
     public ProfileManagement() {
         this.userService = new UserService(DBHandler.getInstance());
     }
 
+    /**
+     * Saves the edited user profile information to the database.
+     * Validates the fields before saving and updates the SessionContext with the new user details.
+     * @param actionEvent The action event that triggered this method.
+     */
+
     public void handleSaveAction(ActionEvent actionEvent) {
-        // Retrieve the values from form fields
+        // Extract and trim input from form fields
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
@@ -77,6 +92,11 @@ public class ProfileManagement {
         }
     }
 
+    /**
+     * Cancels the profile editing and returns to the profile view.
+     * @param actionEvent The action event that triggered this method.
+     */
+
     public void handleCancelAction(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if(stageHandler == null) {
@@ -90,6 +110,12 @@ public class ProfileManagement {
         }
     }
 
+    /**
+     *
+     * @param title alert title
+     * @param content content of alert
+     * @param type type of alert
+     */
     private void showAlert(String title, String content, String type) {
         Alert.AlertType alertType = "CONFIRMATION".equals(type) ? Alert.AlertType.CONFIRMATION : Alert.AlertType.ERROR;
         Alert alert = new Alert(alertType);
@@ -99,6 +125,16 @@ public class ProfileManagement {
         alert.showAndWait();
     }
 
+    /**
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param dob
+     * @return true if fields are truely set , false otherwise
+     */
     public boolean validateRegistrationFields(String username, String email, String password, String firstName, String lastName, LocalDate dob) {
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || dob == null) {
             showAlert("Missing Information", "Please fill in all fields.","");
@@ -125,6 +161,11 @@ public class ProfileManagement {
         return true;
     }
 
+
+    /**
+     * Initializes the controller. Sets up the password visibility toggle based on the checkbox.
+     */
+
     @FXML
     public void initialize() {
         // Sync the password visibility with the checkbox
@@ -150,6 +191,13 @@ public class ProfileManagement {
         plainTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
     }
+
+    /**
+     * Sends a request to change the current user's status to instructor.
+     * This method should be bound to an appropriate UI element if such functionality is desired.
+     * @param actionEvent The action event that triggered this method.
+     */
+
     @FXML
     public void handleVerifyAction(ActionEvent actionEvent) {
         User currentUser = SessionContext.getCurrentUser();

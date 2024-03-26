@@ -8,6 +8,11 @@ import javafx.fxml.FXML;
 
 import java.time.LocalDate;
 
+/**
+ * The UserRequestModel class represents the data model for a user's request.
+ * It encapsulates user information typically required when dealing with user requests,
+ * such as in tables or forms.
+ */
 public class UserRequestModel {
     private final SimpleIntegerProperty userId;
     private final SimpleStringProperty username;
@@ -16,6 +21,16 @@ public class UserRequestModel {
     private final SimpleStringProperty lastName;
     private final SimpleObjectProperty<LocalDate> dob;
 
+    /**
+     * Constructs a new UserRequestModel with the specified details.
+     *
+     * @param userId     The user's ID.
+     * @param username   The user's username.
+     * @param email      The user's email address.
+     * @param firstName  The user's first name.
+     * @param lastName   The user's last name.
+     * @param dob        The user's date of birth.
+     */
     public UserRequestModel(int userId, String username, String email, String firstName, String lastName, LocalDate dob) {
         this.userId = new SimpleIntegerProperty(userId);
         this.username = new SimpleStringProperty(username);
@@ -25,6 +40,7 @@ public class UserRequestModel {
         this.dob = new SimpleObjectProperty<>(dob);
     }
 
+    // Getters and setters for each property are provided below
     public int getUserId() {
         return userId.get();
     }

@@ -3,6 +3,13 @@ package com.uninavigator.uninavigatorapp.controllers;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * Represents a User entity with properties for user attributes.
+ * Utilizes JavaFX properties for easy binding and observation.
+ */
+
+
+
 public class User {
     private final SimpleIntegerProperty userId;
     private final SimpleStringProperty username;
@@ -11,6 +18,18 @@ public class User {
     private final SimpleStringProperty lastName;
     private final SimpleStringProperty role;
     private final SimpleStringProperty dob;
+
+    /**
+     * Constructs a new User with specified attributes.
+     *
+     * @param userId The user's ID.
+     * @param username The user's username.
+     * @param email The user's email address.
+     * @param firstName The user's first name.
+     * @param lastName The user's last name.
+     * @param role The user's role (e.g., Student, Instructor).
+     * @param dob The user's date of birth as a string.
+     */
 
     public User(int userId, String username, String email, String firstName, String lastName, String role, String dob) {
         this.userId = new SimpleIntegerProperty(userId);
@@ -22,6 +41,10 @@ public class User {
         this.dob = new SimpleStringProperty(dob);
     }
 
+
+    /**
+     *  Getters and setters for each property are provided below.
+      */
 
     public int getUserId() {
         return userId.get();

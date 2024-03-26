@@ -26,6 +26,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Controller class for the StudentDashboard view.
+ * Manages UI interactions and data display for student users, including course listings and searches.
+ */
+
 public class StudentDashboard {
     @FXML
     private StackPane contentArea;
@@ -51,15 +57,29 @@ public class StudentDashboard {
     private TableColumn<Course, String> endDateColumn;
     private CourseService courseService;
 
+    /**
+     * Constructor that initializes the CourseService with a DBHandler instance.
+     */
+
     public StudentDashboard() {
         this.courseService = new CourseService(DBHandler.getInstance());
     }
+
+
+    /**
+     * Initializes the StudentDashboard controller.
+     * This method sets up the courses table view and displays the courses table.
+     */
 
     @FXML
     private void initialize() {
         setupCoursesTableView();
         showCoursesTable();
     }
+
+    /**
+     * Sets up the courses table view by specifying the cell value factories for each column.
+     */
 
     private void setupCoursesTableView() {
         courseIdColumn.setCellValueFactory(new PropertyValueFactory<>("courseId"));
@@ -73,11 +93,23 @@ public class StudentDashboard {
 
     }
 
+    /**
+     * Shows the courses table by making it visible and managed.
+     * Populates the table with courses based on the current user's role.
+     */
+
     public void showCoursesTable() {
         coursesTableView.setVisible(true);
         coursesTableView.setManaged(true);
         coursesTableView.setItems(getCoursesForUser());
     }
+
+    /**
+     * Fetches a list of courses for the current user based on their role.
+     * Admin and Student roles can see all courses, while Instructors see only their courses.
+     *
+     * @return An ObservableList of courses for the current user.
+     */
 
     private ObservableList<Course> getCoursesForUser() {
         List<Course> coursesList = new ArrayList<>();
@@ -93,6 +125,10 @@ public class StudentDashboard {
         return FXCollections.observableArrayList(coursesList);
     }
 
+    /**
+     *
+     * @param actionEvent to handle loading user's course enrollement
+     */
 
     @FXML
     public void loadCourseEnrollment(ActionEvent actionEvent) {
@@ -111,6 +147,11 @@ public class StudentDashboard {
 
         }
     }
+
+    /**
+     *
+     * @param actionEvent to handle loading user's profile
+     */
 
     public void loadProfile(ActionEvent actionEvent) {
         try {
@@ -140,9 +181,18 @@ public class StudentDashboard {
 //        }
     }
 
+    /**
+     *
+     * @param actionEvent to handle closing the app and stopping run the app
+     */
     public void handleExit(ActionEvent actionEvent) {
         Platform.exit();
     }
+
+    /**
+     *
+     * @param actionEvent to handle loading User Dashboard
+     */
     public void loadDashboard(ActionEvent actionEvent){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/studentDashboard.fxml"));
@@ -158,6 +208,13 @@ public class StudentDashboard {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Searches for courses based on the input in the search field.
+     * Displays the search results in the courses table.
+     *
+     * @param event The action event triggered by pressing the search button.
+     */
 
     @FXML
     private void handleSearch(ActionEvent event) {
@@ -180,6 +237,11 @@ public class StudentDashboard {
             showCoursesTable();
         }
     }
+
+    /**
+     *
+     * @param actionEvent to handle logging out the user out of the app
+     */
     public void handleLogout(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/login.fxml"));

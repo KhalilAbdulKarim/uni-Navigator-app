@@ -111,7 +111,7 @@ public class ProfileView {
 
     public void InstructorButtonHandling(ActionEvent actionEvent) {
         if ("Admin".equals(SessionContext.getCurrentUser().getRole())) {
-            switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/instructorRequests.fxml", "Instructor Requests");
+            switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/instructorRequest.fxml", "Instructor Requests");
         } else {
             showAlert("Access Denied", "You are not authorized to view this page.");
         }

@@ -1,5 +1,6 @@
 package com.uninavigator.uninavigatorapp.controllers;
 import DBConnection.DBHandler;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,12 +10,14 @@ import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -33,13 +36,19 @@ public class UserTable {
     @FXML private TableColumn<User, String> roleColumn;
     @FXML private TableColumn<User, String> dobColumn;
 
+    private UserService userService;
+
+    public UserTable() {
+        this.userService = new UserService();
+    }
+
     /**
      * Initializes the UserTable controller.
      * Sets up the table columns and loads the user data into the table.
      */
 
     @FXML
-    private void initialize() {
+    private void initialize() throws Exception {
         userIdColumn.setCellValueFactory(cellData -> cellData.getValue().userIdProperty());
         usernameColumn.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
         emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
@@ -56,31 +65,22 @@ public class UserTable {
      * Queries the database for all users and constructs User objects to display in the table.
      */
 
-    private void loadUserData() {
+    private void loadUserData() throws Exception {
         ObservableList<User> userData = FXCollections.observableArrayList();
-        String query = "SELECT UserID, Username, Email, FirstName, LastName, Role, DOB FROM User";
-
-        try (Connection conn = DBHandler.getInstance().connect();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                User user = new User(
-                        rs.getInt("UserID"),
-                        rs.getString("Username"),
-                        rs.getString("Email"),
-                        rs.getString("FirstName"),
-                        rs.getString("LastName"),
-                        rs.getString("Role"),
-                        rs.getString("DOB")
-                );
-                userData.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        List<JSONObject> usersJson = userService.getAllUsers();
+        for (JSONObject userJson : usersJson) {
+            User user = new User(
+                    userJson.getInt("userID"),
+                    userJson.getString("username"),
+                    userJson.getString("email"),
+                    userJson.getString("firstName"),
+                    userJson.getString("lastName"),
+                    userJson.getString("role"),
+                    userJson.getString("dob")
+            );
+            userData.add(user);
         }
-
-        userTable.setItems(userData);
+          userTable.setItems(userData);
     }
 
     /**

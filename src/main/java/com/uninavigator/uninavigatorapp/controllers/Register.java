@@ -1,6 +1,5 @@
 package com.uninavigator.uninavigatorapp.controllers;
-import com.uninavigator.uninavigatorapp.services.UserService;
-import DBConnection.DBHandler;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import utils.StageHandler;
 import javafx.scene.control.Alert;
 //import org.mindrot.jbcrypt.BCrypt;
@@ -33,8 +33,8 @@ public class Register {
     @FXML private DatePicker dobDatePicker;
 
     private StageHandler stageHandler;
+    private UserService userService;
 
-    private final UserService userService = new UserService(DBHandler.getInstance());
 
 
     /**
@@ -44,7 +44,7 @@ public class Register {
      */
 
     @FXML
-    private void handleRegisterButtonAction(ActionEvent actionEvent) {
+    private void handleRegisterButtonAction(ActionEvent actionEvent) throws Exception {
         String username = usernameTextField.getText();
         String email = emailTextField.getText();
         String password = passwordField.getText();
@@ -57,13 +57,13 @@ public class Register {
             return;
         }
         String role = "Student";
+        String requestStatus = "None";
 
-        // Attempt to create a new user with the provided details
-        boolean success = userService.createUser(username, password, email, firstName, lastName, role, dob);
+
+        boolean success = userService.createUser(username,password,email,firstName,lastName,role,dob,requestStatus);
 
         if (success) {
             // Registration successful, navigate to the login view
-
             try {
                 Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 if (stageHandler == null) {
@@ -111,6 +111,7 @@ public class Register {
 
     @FXML
     public void initialize() {
+        userService = new UserService();
         // Bind properties of plainTextField to the inverse of the CheckBox's selected property
         plainTextField.managedProperty().bind(showPasswordCheckbox.selectedProperty());
         plainTextField.visibleProperty().bind(showPasswordCheckbox.selectedProperty());
@@ -169,13 +170,4 @@ public class Register {
         alert.showAndWait();
     }
 
-
-//    public String hashPassword(String plainTextPassword){
-//        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
-//    }
-//
-//    // Verify a password
-//    public boolean checkPass(String plainPassword, String hashedPassword) {
-//        return BCrypt.checkpw(plainPassword, hashedPassword);
-//    }
 }

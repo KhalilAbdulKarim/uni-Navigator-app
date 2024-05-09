@@ -1,7 +1,7 @@
 package com.uninavigator.uninavigatorapp.controllers;
 
 import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.services.CourseService;
+import com.uninavigator.uninavigatorapp.ApiServices.CourseService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,13 +16,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.SessionContext;
-import utils.StageHandler;
 import javafx.application.Platform;
 import javafx.scene.control.TableColumn;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +60,8 @@ public class StudentDashboard {
     @FXML
     private TableColumn<Course, String> endDateColumn;
     private CourseService courseService;
-
-    /**
-     * Constructor that initializes the CourseService with a DBHandler instance.
-     */
-
     public StudentDashboard() {
-        this.courseService = new CourseService(DBHandler.getInstance());
+        this.courseService = new CourseService();
     }
 
 
@@ -112,17 +111,52 @@ public class StudentDashboard {
      */
 
     private ObservableList<Course> getCoursesForUser() {
-        List<Course> coursesList = new ArrayList<>();
-        User currentUser = SessionContext.getCurrentUser();
+        try {
 
-        if (currentUser != null) {
-            if ("Admin".equals(currentUser.getRole()) || "Student".equals(currentUser.getRole())) {
-                coursesList = courseService.getAllCourses();
-            } else if ("Instructor".equals(currentUser.getRole())) {
-                coursesList = courseService.getCoursesByInstructor(currentUser.getUserId());
+            JSONArray coursesArray;
+            User currentUser = SessionContext.getCurrentUser();
+
+            if (currentUser != null) {
+                if ("Admin".equals(currentUser.getRole()) || "Student".equals(currentUser.getRole())) {
+                    coursesArray = courseService.getAllCourses();
+                } else if ("Instructor".equals(currentUser.getRole())) {
+                    coursesArray = courseService.getCoursesByInstructor(currentUser.getUserId());
+                } else {
+                    coursesArray = new JSONArray();
+                }
+                return convertJSONArrayToCourses(coursesArray);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not fetch courses: " + e.getMessage());
+            return FXCollections.observableArrayList();
+
         }
-        return FXCollections.observableArrayList(coursesList);
+        return FXCollections.observableArrayList();
+    }
+    /**
+     * Helper method to convert JSONArray of courses to ObservableList<Course>.
+     *
+     * @param coursesArray JSONArray of course JSON objects.
+     * @return ObservableList of Course objects.
+     */
+    private ObservableList<Course> convertJSONArrayToCourses(JSONArray coursesArray) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Course> courses = new ArrayList<>();
+        for (int i = 0; i < coursesArray.length(); i++) {
+            JSONObject courseObject = coursesArray.getJSONObject(i);
+            Course course = new Course(
+                    courseObject.getInt("courseId"),
+                    courseObject.getString("courseName"),
+                    courseObject.getJSONObject("instructor").getString("username"),
+                    courseObject.getString("schedule"),
+                    courseObject.getString("description"),
+                    courseObject.getInt("capacity"),
+                    dateFormat.parse(courseObject.getString("startDate")),
+                    dateFormat.parse(courseObject.getString("endDate"))
+            );
+        }
+        return FXCollections.observableArrayList(courses);
     }
 
     /**
@@ -216,22 +250,22 @@ public class StudentDashboard {
      * @param event The action event triggered by pressing the search button.
      */
 
+
     @FXML
     private void handleSearch(ActionEvent event) {
         String searchQuery = searchField.getText();
         if (!searchQuery.isEmpty()) {
-            Course searchedCourse = courseService.getCourseByName(searchQuery);
-            if (searchedCourse != null) {
-                ObservableList<Course> courseList = FXCollections.observableArrayList(searchedCourse);
-                coursesTableView.setItems(courseList);
-            } else {
-                coursesTableView.setItems(FXCollections.observableArrayList());
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Search Result");
-                alert.setHeaderText(null);
-                alert.setContentText("No course was found matching your search.");
-                alert.showAndWait();
+            try {
+                List<Course> courses = courseService.searchCourse(searchQuery);
+                if (!courses.isEmpty()) {
+                    ObservableList<Course> courseList = FXCollections.observableArrayList(courses);
+                    coursesTableView.setItems(courseList);
+                } else {
+                    coursesTableView.setItems(FXCollections.observableArrayList());
+                    showAlert("Search Result", "No courses found matching your search.");
+                }
+            } catch (Exception e) {
+                showAlert("Error", "Failed to search courses: " + e.getMessage());
             }
         } else {
             showCoursesTable();
@@ -257,5 +291,13 @@ public class StudentDashboard {
             e.printStackTrace();
         }
     }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 }
 

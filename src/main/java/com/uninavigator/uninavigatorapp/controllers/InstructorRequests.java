@@ -12,10 +12,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import com.uninavigator.uninavigatorapp.UserRequestModel;
-import com.uninavigator.uninavigatorapp.services.UserService;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
+import org.json.JSONObject;
 import utils.SessionContext;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,9 +47,15 @@ public class InstructorRequests {
     private TableColumn<UserRequestModel, String> dobColumn;
     @FXML
     private TableColumn<UserRequestModel, Void> actionColumn;
+
     @FXML
     private TableView<UserRequestModel> requestsTable;
+
     private UserService userService;
+
+    public InstructorRequests() {
+        this.userService = new UserService(); // Ensure UserService is properly initialized to handle requests
+    }
 
 
     /**
@@ -54,9 +63,32 @@ public class InstructorRequests {
      */
 
     private void populateRequestsTable() {
-        List<UserRequestModel> requests = userService.getAllInstructorRequests();
-        ObservableList<UserRequestModel> requestData = FXCollections.observableArrayList(requests);
-        requestsTable.setItems(requestData);
+        try {
+            // Fetch the raw JSON data from the service
+            List<JSONObject> jsonRequests = userService.getAllInstructorRequests();
+            // Convert the raw JSON data to UserRequestModel objects
+            List<UserRequestModel> requests = convertJsonToModel(jsonRequests);
+            // Wrap the list in an observable list and set it in the table view
+            ObservableList<UserRequestModel> requestData = FXCollections.observableArrayList(requests);
+            requestsTable.setItems(requestData);
+        } catch (Exception e) {
+            showAlert("Error", "Failed to load instructor requests: " + e.getMessage());
+        }
+    }
+    private List<UserRequestModel> convertJsonToModel(List<JSONObject> jsonRequests) {
+        List<UserRequestModel> models = new ArrayList<>();
+        for (JSONObject json : jsonRequests) {
+            UserRequestModel model = new UserRequestModel(
+                    json.getInt("userId"),
+                    json.getString("username"),
+                    json.getString("email"),
+                    json.getString("firstName"),
+                    json.getString("lastName"),
+                    LocalDate.parse(json.getString("dob"))
+            );
+            models.add(model);
+        }
+        return models;
     }
 
     /**
@@ -95,27 +127,37 @@ public class InstructorRequests {
         });
     }
 
-    private void handleDecline(UserRequestModel userRequestModel) {
+    private void handleDecline(UserRequestModel request) {
         if (!isUserAuthorized("Admin")) {
             showAlert("Authorization Error", "You are not authorized to perform this action.");
             return;
         }
-        //if user is authorized ,decline
-        boolean success = userService.declineInstructorRequest(userRequestModel.getUserId());
-        if (success) {
-            populateRequestsTable(); // Refresh the table data
+        try {
+            if (userService.declineInstructorRequest(request.getUserId())) {
+                populateRequestsTable(); // Refresh the table
+                showAlert("Success", "Instructor request declined successfully.");
+            } else {
+                showAlert("Error", "Failed to decline the request.");
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Failed to decline the request: " + e.getMessage());
         }
     }
 
-    private void handleAccept(UserRequestModel userRequestModel) {
+    private void handleAccept(UserRequestModel request) {
         if (!isUserAuthorized("Admin")) {
             showAlert("Authorization Error", "You are not authorized to perform this action.");
             return;
         }
-        //if user is authorized ,approve
-        boolean success = userService.approveInstructorRequest(userRequestModel.getUserId());
-        if (success) {
-            populateRequestsTable();
+        try {
+            if (userService.approveInstructorRequest(request.getUserId())) {
+                populateRequestsTable(); // Refresh the table
+                showAlert("Success", "Instructor request approved successfully.");
+            } else {
+                showAlert("Error", "Failed to approve the request.");
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Failed to approve the request: " + e.getMessage());
         }
     }
 
@@ -130,7 +172,6 @@ public class InstructorRequests {
      */
     @FXML
     public void initialize() {
-        userService = new UserService(DBHandler.getInstance());
         setupTableColumns();
         populateRequestsTable();
     }

@@ -3,6 +3,9 @@ module com.uninavigator.uninavigatorapp {
     requires javafx.fxml;
     requires java.sql;
     requires java.management;
+    requires org.json;
+    requires okhttp3;
+    requires kotlin.stdlib;
 //    requires jBCrypt;
 
 

@@ -1,6 +1,5 @@
 package com.uninavigator.uninavigatorapp.controllers;
-import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.services.UserService;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +11,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.json.JSONException;
 import utils.StageHandler;
 import utils.SessionContext;
 
@@ -34,7 +34,11 @@ public class Login {
     private TextField plainTextField;
     private StageHandler stageHandler;
 
-    private UserService userService = new UserService(DBHandler.getInstance());
+    private UserService userService;
+
+    public Login() {
+        this.userService = new UserService();
+    }
 
     /**
      * Attempts to authenticate the user. If successful, navigates to the appropriate dashboard
@@ -42,15 +46,40 @@ public class Login {
      * @param actionEvent The action event triggered by the login button.
      */
 
+//    public void handleLoginAction(ActionEvent actionEvent) {
+//        String username = usernameTextField.getText().trim();
+//        String password = passwordField.getText();
+//
+//        if (username.isEmpty() || password.isEmpty()) {
+//            showAlert("Login Error", "Username & Password cannot be empty");
+//            return;
+//        }
+//
+//        try {
+//            User authenticatedUser = userService.authenticateUser(username, password);
+//            if (authenticatedUser != null) {
+//                SessionContext.clear();
+//                SessionContext.setCurrentUser(authenticatedUser);//
+//                navigate(authenticatedUser.getRole(), actionEvent);
+//            } else {
+//                showAlert("Login Error", "Invalid username or password. Please try again.");
+//            }
+//        } catch (Exception e) {
+//            showAlert("Login Error", "An error occurred while attempting to log in. Please try again later.");
+//            e.printStackTrace();
+//        }
+//    }
+
     public void handleLoginAction(ActionEvent actionEvent) {
         String username = usernameTextField.getText().trim();
-        String password = passwordField.getText();
+        String password = passwordField.isVisible() ? passwordField.getText() : plainTextField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
             showAlert("Login Error", "Username & Password cannot be empty");
             return;
         }
-        try{
+
+        try {
             User authenticatedUser = userService.authenticateUser(username, password);
             if (authenticatedUser != null) {
                 SessionContext.clear();
@@ -59,13 +88,15 @@ public class Login {
             } else {
                 showAlert("Login Error", "Invalid username or password. Please try again.");
             }
-
-        }catch (Exception e){
+        } catch (JSONException je) {
+            showAlert("Login Error", "Failed to parse server response: " + je.getMessage());
+        } catch (Exception e) {
             showAlert("Login Error", "An error occurred while attempting to log in. Please try again later.");
-            e.printStackTrace();}
-
-
+            e.printStackTrace();
+        }
     }
+
+
 
     /**
      * Navigates to the registration view.

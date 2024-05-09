@@ -21,19 +21,11 @@ public class StartApp extends Application {
     }
 
     public static void main(String[] args) {
-        testConnection();
         launch();
     }
 
-    private static void testConnection() {
-        try {
-            System.out.println("Testing database connection...");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            DBHandler dbConn = new DBHandler();
-        } catch (ClassNotFoundException e) {
-            System.out.println("MySQL JDBC Driver not found.");
-            e.printStackTrace();
-        }
-    }
+
+
+
 
 }

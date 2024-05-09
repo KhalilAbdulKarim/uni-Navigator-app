@@ -1,7 +1,7 @@
 package com.uninavigator.uninavigatorapp.controllers;
 
 import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.services.UserService;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +16,8 @@ import utils.SessionContext;
 import utils.StageHandler;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Controller for the profile view.
@@ -34,9 +36,12 @@ public class ProfileView {
     public Label usernameLabel;
     public Label roleLabel;
     public Button backButton;
-    private StageHandler stageHandler;
-    private DBHandler dbHandler;
-    private UserService userService = new UserService(dbHandler);
+
+    private UserService userService;
+
+    public ProfileView() {
+        this.userService = new UserService();
+    }
 
     /**
      * Handles the action to edit the current user's profile.
@@ -44,16 +49,7 @@ public class ProfileView {
      */
 
     public void handleEditAction(ActionEvent actionEvent) {
-        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        if (stageHandler == null) {
-            stageHandler = new StageHandler(currentStage);
-        }
-        try {
-            stageHandler.switchScene("/com/uninavigator/uninavigatorapp/ProfileManagement.fxml", "Edit Profile");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Failed to navigate to Edit Profile.");
-        }
+        switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/ProfileManagement.fxml", "Edit Profile");
     }
 
     /**
@@ -62,17 +58,7 @@ public class ProfileView {
      */
 
     public void handleBackAction(ActionEvent actionEvent) {
-        try
-             {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/studentDashboard.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Dashboard");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-            } catch (IOException e){
-            e.printStackTrace();
-        }
+        switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/studentDashboard.fxml", "Dashboard");
     }
 
     /**
@@ -124,15 +110,50 @@ public class ProfileView {
      */
 
     public void InstructorButtonHandling(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/instructorRequest.fxml"));
-            Parent instructorRequestsView = loader.load();
+        if ("Admin".equals(SessionContext.getCurrentUser().getRole())) {
+            switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/instructorRequests.fxml", "Instructor Requests");
+        } else {
+            showAlert("Access Denied", "You are not authorized to view this page.");
+        }
+    }
 
+    /**
+     * Switches the scene to a new FXML view.
+     * @param actionEvent The event that triggered the action.
+     * @param fxmlPath The path to the FXML file.
+     * @param title The title of the new scene.
+     */
+    private void switchScene(ActionEvent actionEvent, String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(instructorRequestsView));
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Navigation Error", "Failed to navigate to " + title);
+        }
+    }
+
+    private void populateUserProfile() {
+        var currentUser = SessionContext.getCurrentUser();
+
+        if (currentUser != null) {
+            usernameLabel.setText("Username: " + currentUser.getUsername());
+            emailLabel.setText("Email: " + currentUser.getEmail());
+            firstNameLabel.setText("First Name: " + currentUser.getFirstName());
+            lastNameLabel.setText("Last Name: " + currentUser.getLastName());
+//            dobLabel.setText("Date of Birth: " + currentUser.getDob());
+            LocalDate dob = LocalDate.parse(currentUser.getDob(), DateTimeFormatter.ISO_LOCAL_DATE);
+            dobLabel.setText("Date of Birth: " + dob.format(DateTimeFormatter.ofPattern("dd LLLL yyyy")));
+            roleLabel.setText("Role: " + currentUser.getRole());
+
+            // Only show the instructor request button for Admin users
+            instructorRequestButton.setVisible("Admin".equals(currentUser.getRole()));
+        } else {
+            showAlert("Session Error", "No user is currently logged in.");
         }
     }
 }

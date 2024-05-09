@@ -4,6 +4,8 @@ plugins {
     id "org.javamodularity.moduleplugin" version "1.8.14"
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
+    id "org.jetbrains.kotlin.jvm" version "1.8.21" // Added
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.8.21" // Added
 }
 
 group 'com.uniNavigator'
@@ -45,6 +47,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation 'mysql:mysql-connector-java:8.0.29'
+    // OkHttp dependencies
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+
+    // org.json dependency
+    implementation 'org.json:json:20230227'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 }
 
 test {

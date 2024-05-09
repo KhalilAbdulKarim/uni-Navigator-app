@@ -1,7 +1,6 @@
 package com.uninavigator.uninavigatorapp.controllers;
 
-import DBConnection.DBHandler;
-import com.uninavigator.uninavigatorapp.services.UserService;
+import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -38,13 +37,12 @@ public class ProfileManagement {
     private StageHandler stageHandler;
 
     private UserService userService;
-
     /**
      * Constructor initializes the UserService with a database handler instance.
      */
 
     public ProfileManagement() {
-        this.userService = new UserService(DBHandler.getInstance());
+        this.userService = new UserService();
     }
 
     /**
@@ -53,7 +51,7 @@ public class ProfileManagement {
      * @param actionEvent The action event that triggered this method.
      */
 
-    public void handleSaveAction(ActionEvent actionEvent) {
+    public void handleSaveAction(ActionEvent actionEvent) throws Exception {
         // Extract and trim input from form fields
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
@@ -79,7 +77,7 @@ public class ProfileManagement {
         }
 
         // Update user information in the database
-        boolean success = userService.updateUser(currentUserId, username, email, password, firstName, lastName, dob);
+        boolean success = Boolean.parseBoolean(userService.updateUser(currentUserId, username, email, password, firstName, lastName, dob));
 
         if(success) {
             showAlert("Update Success", "Profile updated successfully.","CONFIRMATION");
@@ -199,7 +197,7 @@ public class ProfileManagement {
      */
 
     @FXML
-    public void handleVerifyAction(ActionEvent actionEvent) {
+    public void handleVerifyAction(ActionEvent actionEvent) throws Exception {
         User currentUser = SessionContext.getCurrentUser();
         userService.requestInstructorStatus(currentUser.getUserId());
         showAlert("Request Sent", "Your request to become an instructor has been sent to the admin.", "INFORMATION");

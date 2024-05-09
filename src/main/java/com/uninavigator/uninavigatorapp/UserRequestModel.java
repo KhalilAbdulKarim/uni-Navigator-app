@@ -5,8 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The UserRequestModel class represents the data model for a user's request.
@@ -113,6 +116,29 @@ public class UserRequestModel {
         this.dob.set(dob);
     }
 
+    private List<UserRequestModel> convertJsonToModel(List<JSONObject> jsonRequests) {
+        List<UserRequestModel> models = new ArrayList<>();
+        for (JSONObject json : jsonRequests) {
+            try {
+                int userId = json.has("userID") ? json.getInt("userID") : -1; // Provide a default value or handle it accordingly
+                String username = json.optString("username", "defaultUsername");
+                String email = json.optString("email", "defaultEmail");
+                String firstName = json.optString("firstName", "defaultFirstName");
+                String lastName = json.optString("lastName", "defaultLastName");
+                LocalDate dob = LocalDate.parse(json.optString("dob", "1900-01-01")); // Provide a default date or handle it accordingly
+
+                UserRequestModel model = new UserRequestModel(
+                        userId, username, email, firstName, lastName, dob
+                );
+                models.add(model);
+            } catch (Exception e) {
+                System.err.println("Error parsing JSON object: " + e.getMessage());
+                // Log the problematic JSON object for debugging
+                System.err.println("Problematic JSON: " + json);
+            }
+        }
+        return models;
+    }
 
 
 }

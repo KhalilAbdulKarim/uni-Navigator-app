@@ -64,29 +64,35 @@ public class InstructorRequests {
 
     private void populateRequestsTable() {
         try {
-            // Fetch the raw JSON data from the service
-            List<JSONObject> jsonRequests = userService.getAllInstructorRequests();
-            // Convert the raw JSON data to UserRequestModel objects
-            List<UserRequestModel> requests = convertJsonToModel(jsonRequests);
-            // Wrap the list in an observable list and set it in the table view
+            List<JSONObject> jsonRequests = userService.getAllInstructorRequests();  // Fetch instructor requests from the database
+            List<UserRequestModel> requests = convertJsonToModel(jsonRequests);      // Convert JSON data to model objects
             ObservableList<UserRequestModel> requestData = FXCollections.observableArrayList(requests);
             requestsTable.setItems(requestData);
         } catch (Exception e) {
             showAlert("Error", "Failed to load instructor requests: " + e.getMessage());
         }
     }
+
+
     private List<UserRequestModel> convertJsonToModel(List<JSONObject> jsonRequests) {
         List<UserRequestModel> models = new ArrayList<>();
         for (JSONObject json : jsonRequests) {
-            UserRequestModel model = new UserRequestModel(
-                    json.getInt("userId"),
-                    json.getString("username"),
-                    json.getString("email"),
-                    json.getString("firstName"),
-                    json.getString("lastName"),
-                    LocalDate.parse(json.getString("dob"))
-            );
-            models.add(model);
+            try {
+                int userId = json.has("userID") ? json.getInt("userID") : -1;
+                String username = json.optString("username", "defaultUsername");
+                String email = json.optString("email", "defaultEmail");
+                String firstName = json.optString("firstName", "defaultFirstName");
+                String lastName = json.optString("lastName", "defaultLastName");
+                LocalDate dob = LocalDate.parse(json.optString("dob", "1900-01-01")); // Provide a default date or handle it accordingly
+
+                UserRequestModel model = new UserRequestModel(
+                        userId, username, email, firstName, lastName, dob
+                );
+                models.add(model);
+            } catch (Exception e) {
+                System.err.println("Error parsing JSON object: " + e.getMessage());
+                System.err.println("Problematic JSON: " + json);
+            }
         }
         return models;
     }
@@ -127,7 +133,7 @@ public class InstructorRequests {
         });
     }
 
-    private void handleDecline(UserRequestModel request) {
+   private void handleDecline (UserRequestModel request) {
         if (!isUserAuthorized("Admin")) {
             showAlert("Authorization Error", "You are not authorized to perform this action.");
             return;
@@ -139,6 +145,8 @@ public class InstructorRequests {
             } else {
                 showAlert("Error", "Failed to decline the request.");
             }
+        } catch (IOException e) {  // More specific exception
+            showAlert("Error", "Network error: " + e.getMessage());
         } catch (Exception e) {
             showAlert("Error", "Failed to decline the request: " + e.getMessage());
         }
@@ -156,10 +164,13 @@ public class InstructorRequests {
             } else {
                 showAlert("Error", "Failed to approve the request.");
             }
+        } catch (IOException e) {  // More specific exception
+            showAlert("Error", "Network error: " + e.getMessage());
         } catch (Exception e) {
             showAlert("Error", "Failed to approve the request: " + e.getMessage());
         }
     }
+
 
     public void handleRefreshAction(ActionEvent actionEvent) {
         populateRequestsTable();

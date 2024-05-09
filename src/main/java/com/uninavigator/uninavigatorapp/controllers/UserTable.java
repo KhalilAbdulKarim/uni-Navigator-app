@@ -90,7 +90,7 @@ public class UserTable {
      * @param actionEvent The action event triggered by the user's interaction.
      */
 
-    public void loadInstructorsList(ActionEvent actionEvent) {
+    public void loadInstructorsRequestList(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uninavigator/uninavigatorapp/instructorRequest.fxml"));
             Node profileView = loader.load();

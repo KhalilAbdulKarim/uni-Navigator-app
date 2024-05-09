@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.json.JSONException;
 import utils.StageHandler;
 import utils.SessionContext;
+import javax.security.sasl.AuthenticationException;
 
 
 import java.io.IOException;
@@ -70,31 +71,62 @@ public class Login {
 //        }
 //    }
 
+//    public void handleLoginAction(ActionEvent actionEvent) {
+//        String username = usernameTextField.getText().trim();
+//        String password = passwordField.isVisible() ? passwordField.getText() : plainTextField.getText();
+//
+//        if (username.isEmpty() || password.isEmpty()) {
+//            showAlert("Login Error", "Username & Password cannot be empty");
+//            return;
+//        }
+//
+//        try {
+//            User authenticatedUser = userService.authenticateUser(username, password);
+//            if (authenticatedUser != null) {
+//                SessionContext.clear();
+//                SessionContext.setCurrentUser(authenticatedUser);
+//                navigate(authenticatedUser.getRole(), actionEvent);
+//            } else {
+//                showAlert("Login Error", "Invalid username or password. Please try again.");
+//            }
+//        } catch (JSONException je) {
+//            showAlert("Login Error", "Failed to parse server response: " + je.getMessage());
+//        } catch (Exception e) {
+//            showAlert("Login Error", "An error occurred while attempting to log in. Please try again later.");
+//            e.printStackTrace();
+//        }
+//    }
+
     public void handleLoginAction(ActionEvent actionEvent) {
         String username = usernameTextField.getText().trim();
         String password = passwordField.isVisible() ? passwordField.getText() : plainTextField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Login Error", "Username & Password cannot be empty");
+            showAlert("Login Error", "Username and Password cannot be empty");
             return;
         }
 
         try {
             User authenticatedUser = userService.authenticateUser(username, password);
-            if (authenticatedUser != null) {
-                SessionContext.clear();
-                SessionContext.setCurrentUser(authenticatedUser);
-                navigate(authenticatedUser.getRole(), actionEvent);
-            } else {
-                showAlert("Login Error", "Invalid username or password. Please try again.");
-            }
+            SessionContext.clear();
+            SessionContext.setCurrentUser(authenticatedUser);
+            navigate(authenticatedUser.getRole(), actionEvent);
+        } catch (AuthenticationException ae) {
+            // This catch block handles incorrect credentials
+            showAlert("Login Error", "Invalid username or password. Please try again.");
         } catch (JSONException je) {
+            // This catch block handles JSON parsing errors
             showAlert("Login Error", "Failed to parse server response: " + je.getMessage());
+        } catch (IOException ie) {
+            // This handles network-related errors
+            showAlert("Login Error", "Network error: Please check your connection and try again.");
         } catch (Exception e) {
+            // Generic catch block for any other unexpected exceptions
             showAlert("Login Error", "An error occurred while attempting to log in. Please try again later.");
             e.printStackTrace();
         }
     }
+
 
 
 

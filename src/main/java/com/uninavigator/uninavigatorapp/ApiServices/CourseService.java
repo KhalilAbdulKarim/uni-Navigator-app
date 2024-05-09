@@ -20,31 +20,6 @@ public class CourseService {
     JSONArray jsonArray = new JSONArray();
 
 
-
-//    public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("courseName", courseName);
-//        jsonObject.put("instructorId", instructorId);
-//        jsonObject.put("schedule", schedule);
-//        jsonObject.put("description", description);
-//        jsonObject.put("capacity", capacity);
-//        jsonObject.put("startDate", startDate);
-//        jsonObject.put("endDate", endDate);
-//
-//        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-//        Request request = new Request.Builder()
-//                .url(BASE_URL + "/create")
-//                .post(body)
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.isSuccessful();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-
     public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
         JSONObject courseDetails = new JSONObject();
         courseDetails.put("courseName", courseName);

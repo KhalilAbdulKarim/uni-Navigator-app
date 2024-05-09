@@ -115,21 +115,34 @@ public class UserService {
         return Boolean.parseBoolean(executeRequest(request));
     }
 
-    public boolean declineInstructorRequest(int userId) throws Exception {
-        Request request = new Request.Builder()
-                .url("http://localhost:8080/api/users/decline-instructor-request/" + userId)
-                .post(RequestBody.create("", null))
-                .build();
-        return Boolean.parseBoolean(executeRequest(request));
-    }
 
+//    public boolean approveInstructorRequest(int userId) throws Exception {
+//        Request request = new Request.Builder()
+//                .url("http://localhost:8080/api/users/approve-instructor-request/" + userId)
+//                .post(RequestBody.create("", null))
+//                .build();
+//        return Boolean.parseBoolean(executeRequest(request));
+//    }
     public boolean approveInstructorRequest(int userId) throws Exception {
         Request request = new Request.Builder()
                 .url("http://localhost:8080/api/users/approve-instructor-request/" + userId)
-                .post(RequestBody.create("", null))
+                .post(RequestBody.create("", MediaType.parse("application/json")))
                 .build();
-        return Boolean.parseBoolean(executeRequest(request));
+        try (Response response = client.newCall(request).execute()) {
+            return response.isSuccessful();  // Check if the response status code is in the range 200-299
+        }
     }
+
+    public boolean declineInstructorRequest(int userId) throws Exception {
+        Request request = new Request.Builder()
+                .url("http://localhost:8080/api/users/decline-instructor-request/" + userId)
+                .post(RequestBody.create("", MediaType.parse("application/json")))
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            return response.isSuccessful();  // Check if the response status code is in the range 200-299
+        }
+    }
+
 
     public List<JSONObject> getAllInstructorRequests() throws Exception {
         Request request = new Request.Builder()

@@ -6,6 +6,7 @@ module com.uninavigator.uninavigatorapp {
     requires org.json;
     requires okhttp3;
     requires kotlin.stdlib;
+    requires java.security.sasl;
 //    requires jBCrypt;
 
 

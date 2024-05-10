@@ -20,54 +20,7 @@ public class CourseService {
     JSONArray jsonArray = new JSONArray();
 
 
-//    public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
-//        JSONObject courseDetails = new JSONObject();
-//        courseDetails.put("courseName", courseName);
-//        courseDetails.put("instructor", new JSONObject().put("userId", instructorId)); // Use "userId" instead of "id"
-//        courseDetails.put("schedule", schedule);
-//        courseDetails.put("description", description);
-//        courseDetails.put("capacity", capacity);
-//        courseDetails.put("startDate", startDate);
-//        courseDetails.put("endDate", endDate);
-//
-//        RequestBody body = RequestBody.create(courseDetails.toString(), JSON);
-//        Request request = new Request.Builder()
-//                .url(BASE_URL + "/createCourse")
-//                .post(body)
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.isSuccessful();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
-
-//    public boolean updateCourse(int courseId, String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("courseName", courseName);
-//        jsonObject.put("instructorId", instructorId);
-//        jsonObject.put("schedule", schedule);
-//        jsonObject.put("description", description);
-//        jsonObject.put("capacity", capacity);
-//        jsonObject.put("startDate", startDate);
-//        jsonObject.put("endDate", endDate);
-//
-//        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-//        Request request = new Request.Builder()
-//                .url(BASE_URL + "/update/" + courseId)
-//                .put(body)
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.isSuccessful();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
     public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
         JSONObject courseDetails = new JSONObject();
@@ -134,13 +87,13 @@ public class CourseService {
 
     public JSONArray getAllCourses() {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/")
+                .url(BASE_URL + "/AllCourses")
                 .get()
                 .build();
-
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                return new JSONArray(response.body().string());
+                String responseBody = response.body().string();
+                return new JSONArray(responseBody);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,7 +101,7 @@ public class CourseService {
         return new JSONArray();
     }
 
-    public JSONObject getCourse(int courseId) {
+    public JSONArray getCourseById(int courseId) {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/" + courseId)
                 .get()
@@ -156,12 +109,13 @@ public class CourseService {
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                return new JSONObject(response.body().string());
+                String responseBody = response.body().string();
+                return new JSONArray(responseBody);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new JSONObject();
+        return new JSONArray();
     }
 
 
@@ -170,7 +124,6 @@ public class CourseService {
                 .url(BASE_URL + "/instructor/" + instructorId)
                 .get()
                 .build();
-
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
                 return new JSONArray(response.body().string());
@@ -180,6 +133,7 @@ public class CourseService {
         }
         return new JSONArray();
     }
+
 
     public JSONArray getCoursesByStudent(int studentId) {
         Request request = new Request.Builder()

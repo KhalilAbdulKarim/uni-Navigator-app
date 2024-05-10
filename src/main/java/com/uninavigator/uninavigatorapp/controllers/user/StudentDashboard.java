@@ -112,7 +112,6 @@ public class StudentDashboard {
 
     private ObservableList<Course> getCoursesForUser() {
         try {
-
             JSONArray coursesArray;
             User currentUser = SessionContext.getCurrentUser();
 
@@ -129,11 +128,13 @@ public class StudentDashboard {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Could not fetch courses: " + e.getMessage());
-            return FXCollections.observableArrayList();
-
         }
         return FXCollections.observableArrayList();
     }
+
+
+
+
     /**
      * Helper method to convert JSONArray of courses to ObservableList<Course>.
      *
@@ -155,6 +156,7 @@ public class StudentDashboard {
                     dateFormat.parse(courseObject.getString("startDate")),
                     dateFormat.parse(courseObject.getString("endDate"))
             );
+            courses.add(course);
         }
         return FXCollections.observableArrayList(courses);
     }

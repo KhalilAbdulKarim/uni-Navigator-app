@@ -66,7 +66,7 @@ public class UserTable {
         List<JSONObject> usersJson = userService.getAllUsers();
         for (JSONObject userJson : usersJson) {
             User user = new User(
-                    userJson.getInt("userID"),
+                    userJson.getInt("userId"),
                     userJson.getString("username"),
                     userJson.getString("email"),
                     userJson.getString("firstName"),

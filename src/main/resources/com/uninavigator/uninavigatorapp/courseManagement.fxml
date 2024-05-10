@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.uninavigator.uninavigatorapp.controllers.course.CourseManagement"
+            prefHeight="460.0" prefWidth="600.0">
+
+    <VBox spacing="15.0" layoutX="15.0" layoutY="14.0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Course Name -->
+        <HBox spacing="15.0">
+            <Label text="Course Name:" minWidth="100.0"/>
+            <TextField fx:id="courseNameField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Instructor Selection -->
+        <HBox spacing="15.0">
+            <Label text="Instructor:" minWidth="100.0"/>
+            <ComboBox fx:id="instructorComboBox" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Schedule -->
+        <HBox spacing="15.0">
+            <Label text="Schedule:" minWidth="100.0"/>
+            <TextField fx:id="scheduleField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Description -->
+        <HBox spacing="15.0">
+            <Label text="Description:" minWidth="100.0"/>
+            <TextArea fx:id="descriptionField" prefWidth="350.0" prefHeight="80.0"/>
+        </HBox>
+
+        <!-- Capacity -->
+        <HBox spacing="15.0">
+            <Label text="Capacity:" minWidth="100.0"/>
+            <TextField fx:id="capacityField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Start Date -->
+        <HBox spacing="15.0">
+            <Label text="Start Date:" minWidth="100.0"/>
+            <DatePicker fx:id="startDatePicker" prefWidth="200.0"/>
+        </HBox>
+
+        <!-- End Date -->
+        <HBox spacing="15.0">
+            <Label text="End Date:" minWidth="100.0"/>
+            <DatePicker fx:id="endDatePicker" prefWidth="200.0"/>
+        </HBox>
+
+        <!-- Buttons -->
+        <HBox spacing="30.0" alignment="CENTER">
+            <Button text="Create Course" onAction="#handleCreateCourseAction" prefWidth="120.0"/>
+            <Button text="Cancel" onAction="#clearForm" prefWidth="120.0"/>
+            <Button text="Back" onAction="#handleBackAction" prefWidth="120.0"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

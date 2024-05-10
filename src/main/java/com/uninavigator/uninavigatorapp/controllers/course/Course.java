@@ -1,4 +1,4 @@
-package com.uninavigator.uninavigatorapp.controllers;
+package com.uninavigator.uninavigatorapp.controllers.course;
 import java.util.Date;
 
 /**

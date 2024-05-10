@@ -1,4 +1,4 @@
-package com.uninavigator.uninavigatorapp.controllers;
+package com.uninavigator.uninavigatorapp.controllers.user;
 
 import DBConnection.DBHandler;
 import javafx.collections.FXCollections;

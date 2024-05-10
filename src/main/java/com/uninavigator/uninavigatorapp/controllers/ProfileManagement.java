@@ -1,6 +1,7 @@
 package com.uninavigator.uninavigatorapp.controllers;
 
 import com.uninavigator.uninavigatorapp.ApiServices.UserService;
+import com.uninavigator.uninavigatorapp.controllers.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

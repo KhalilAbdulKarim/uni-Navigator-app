@@ -1,6 +1,5 @@
-package com.uninavigator.uninavigatorapp.controllers;
+package com.uninavigator.uninavigatorapp.controllers.user;
 
-import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.ApiServices.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import utils.SessionContext;
-import utils.StageHandler;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,6 +26,9 @@ public class ProfileView {
 
     @FXML
     private Button instructorRequestButton;
+
+    @FXML
+    private Button createCourseButton;
     public Button editProfileButton;
     public Label dobLabel;
     public Label firstNameLabel;
@@ -86,6 +87,7 @@ public class ProfileView {
 
         if (currentUser != null && "Admin".equals(currentUser.getRole())) {
             instructorRequestButton.setVisible(true);
+            createCourseButton.setVisible(true);
 
         }
 
@@ -154,6 +156,14 @@ public class ProfileView {
             instructorRequestButton.setVisible("Admin".equals(currentUser.getRole()));
         } else {
             showAlert("Session Error", "No user is currently logged in.");
+        }
+    }
+
+    public void createCourseButtonHandling(ActionEvent actionEvent) {
+        if ("Admin".equals(SessionContext.getCurrentUser().getRole())) {
+            switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/courseManagement.fxml", "Course Management");
+        } else {
+            showAlert("Access Denied", "You are not authorized to view this page.");
         }
     }
 }

@@ -1,7 +1,8 @@
-package com.uninavigator.uninavigatorapp.controllers;
+package com.uninavigator.uninavigatorapp.controllers.user;
 
-import DBConnection.DBHandler;
 import com.uninavigator.uninavigatorapp.ApiServices.CourseService;
+import com.uninavigator.uninavigatorapp.controllers.course.Course;
+import com.uninavigator.uninavigatorapp.controllers.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +27,6 @@ import javafx.scene.control.TableColumn;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 

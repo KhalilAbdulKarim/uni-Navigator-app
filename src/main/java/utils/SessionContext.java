@@ -1,6 +1,6 @@
 package utils;
 
-import com.uninavigator.uninavigatorapp.controllers.User;
+import com.uninavigator.uninavigatorapp.controllers.user.User;
 
 
 public class SessionContext {

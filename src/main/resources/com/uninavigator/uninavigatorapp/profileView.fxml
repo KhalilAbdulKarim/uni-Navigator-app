@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="520.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.ProfileView">
+<AnchorPane prefHeight="520.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.user.ProfileView">
     <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="64.0">
         <VBox spacing="30">
             <padding>
@@ -27,7 +27,7 @@
         </VBox>
     </ScrollPane>
 
-    <Button fx:id="editProfileButton" layoutX="201.0" layoutY="474.0" onAction="#handleEditAction" text="Edit Profile" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="319.0" />
+    <Button fx:id="editProfileButton" layoutX="119.0" layoutY="474.0" onAction="#handleEditAction" prefHeight="26.0" prefWidth="223.0" text="Edit Profile" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="526.0" />
 
     <Label layoutX="263.0" layoutY="35.0" text="PROFILE">
         <font>
@@ -36,7 +36,8 @@
     </Label>
 
     <Button fx:id="backButton" layoutX="48.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleBackAction" text="BACK" />
-    <Button fx:id="instructorRequestButton" layoutX="458.0" layoutY="474.0" mnemonicParsing="false" onAction="#InstructorButtonHandling" prefHeight="26.0" prefWidth="152.0" text="Instructor Requests List" visible="false" />
+    <Button fx:id="instructorRequestButton" layoutX="284.0" layoutY="474.0" mnemonicParsing="false" onAction="#InstructorButtonHandling" prefHeight="26.0" prefWidth="152.0" text="Instructor Requests List" visible="false" />
+    <Button fx:id="createCourseButton" layoutX="470.0" layoutY="474.0" mnemonicParsing="false" onAction="#createCourseButtonHandling" prefHeight="26.0" prefWidth="152.0" text="Create Course" visible="false" />
     
 
 </AnchorPane>

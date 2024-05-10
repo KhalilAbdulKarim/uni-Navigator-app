@@ -1,6 +1,6 @@
-package com.uninavigator.uninavigatorapp.controllers;
-import DBConnection.DBHandler;
+package com.uninavigator.uninavigatorapp.controllers.user;
 import com.uninavigator.uninavigatorapp.ApiServices.UserService;
+import com.uninavigator.uninavigatorapp.controllers.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,10 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 

@@ -1,8 +1,7 @@
 package com.uninavigator.uninavigatorapp.ApiServices;
-import com.uninavigator.uninavigatorapp.controllers.User;
+import com.uninavigator.uninavigatorapp.controllers.user.User;
 import okhttp3.*;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -18,7 +17,6 @@ public class UserService {
     private static final String BASE_URL = "http://localhost:8080/api/users";
 
 
-
     JSONObject jsonObject = new JSONObject();
 
     JSONArray jsonArray = new JSONArray();
@@ -32,7 +30,7 @@ public class UserService {
         jsonObject.put("lastName", lastName);
         jsonObject.put("role", role);
         jsonObject.put("dob", dob.toString());
-        jsonObject.put("requestStatus",requestStatus);
+        jsonObject.put("requestStatus", requestStatus);
 
         RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
         Request request = new Request.Builder()
@@ -66,6 +64,37 @@ public class UserService {
     }
 
 
+//    public User authenticateUser(String username, String password) throws Exception {
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("username", username);
+//        jsonObject.put("password", password);
+//
+//        RequestBody body = RequestBody.create(jsonObject.toString(), MediaType.parse("application/json; charset=utf-8"));
+//        Request request = new Request.Builder()
+//                .url(BASE_URL + "/authenticate")
+//                .post(body)
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (response.isSuccessful() && response.body() != null) {
+//                String responseBody = response.body().string();
+//                JSONObject userJson = new JSONObject(responseBody);
+//
+//                return new User(
+//                        userJson.getInt("userId"),
+//                        userJson.getString("username"),
+//                        userJson.getString("email"),
+//                        userJson.getString("firstName"),
+//                        userJson.getString("lastName"),
+//                        userJson.getString("role"),
+//                        userJson.getString("dob")
+//                );
+//            } else {
+//                throw new Exception("Authentication failed: " + response);
+//            }
+//        }
+//    }
+
     public User authenticateUser(String username, String password) throws Exception {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", username);
@@ -83,7 +112,7 @@ public class UserService {
                 JSONObject userJson = new JSONObject(responseBody);
 
                 return new User(
-                        userJson.getInt("userID"),
+                        userJson.optInt("userId", -1),  // Use optInt to provide a default if key is missing
                         userJson.getString("username"),
                         userJson.getString("email"),
                         userJson.getString("firstName"),
@@ -116,7 +145,7 @@ public class UserService {
     }
 
 
-//    public boolean approveInstructorRequest(int userId) throws Exception {
+    //    public boolean approveInstructorRequest(int userId) throws Exception {
 //        Request request = new Request.Builder()
 //                .url("http://localhost:8080/api/users/approve-instructor-request/" + userId)
 //                .post(RequestBody.create("", null))
@@ -152,6 +181,26 @@ public class UserService {
         return parseJsonArray(executeRequest(request));
     }
 
+    public User findInstructorByName(String firstName, String lastName) throws Exception {
+        List<JSONObject> instructors = getAllInstuctors();
+        for (JSONObject instructor : instructors) {
+            if (instructor.getString("firstName").equalsIgnoreCase(firstName) &&
+                    instructor.getString("lastName").equalsIgnoreCase(lastName)) {
+                return new User(
+                        instructor.optInt("userId", -1), // Default to -1 if userId is missing
+                        instructor.optString("username", "defaultUsername"),
+                        instructor.optString("email", "no-reply@example.com"),
+                        instructor.optString("firstName", "Unknown"),
+                        instructor.optString("lastName", ""),
+                        instructor.optString("role", "User"),
+                        instructor.optString("dob", LocalDate.now().toString())
+                );
+            }
+        }
+        return null;
+    }
+
+
     public List<JSONObject> getAllUsers() throws Exception {
         Request request = new Request.Builder()
                 .url("http://localhost:8080/api/users")
@@ -159,6 +208,15 @@ public class UserService {
                 .build();
         return parseJsonArray(executeRequest(request));
     }
+
+    public List<JSONObject> getAllInstuctors() throws Exception {
+        Request request = new Request.Builder()
+                .url("http://localhost:8080/api/users/instructors")
+                .get()
+                .build();
+        return parseJsonArray(executeRequest(request));
+    }
+
 
     public Optional<JSONObject> getUserById(int userId) throws Exception {
         Request request = new Request.Builder()
@@ -205,6 +263,7 @@ public class UserService {
         return jsonObjects;
     }
 
+
     public User getUserDetailsByUsername(String username) throws Exception {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/username/" + username)
@@ -229,7 +288,7 @@ public class UserService {
             }
         }
     }
-
-
-
 }
+
+
+

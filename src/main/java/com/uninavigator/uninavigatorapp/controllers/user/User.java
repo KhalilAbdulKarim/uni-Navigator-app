@@ -1,4 +1,4 @@
-package com.uninavigator.uninavigatorapp.controllers;
+package com.uninavigator.uninavigatorapp.controllers.user;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,7 +11,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 
 public class User {
-    private final SimpleIntegerProperty userId;
+
+    private int userId;
+
     private final SimpleStringProperty username;
     private final SimpleStringProperty email;
     private final SimpleStringProperty firstName;
@@ -32,7 +34,7 @@ public class User {
      */
 
     public User(int userId, String username, String email, String firstName, String lastName, String role, String dob) {
-        this.userId = new SimpleIntegerProperty(userId);
+        this.userId = userId;
         this.username = new SimpleStringProperty(username);
         this.email = new SimpleStringProperty(email);
         this.firstName = new SimpleStringProperty(firstName);
@@ -42,12 +44,13 @@ public class User {
     }
 
 
+
     /**
      *  Getters and setters for each property are provided below.
       */
 
-    public int getUserId() {
-        return userId.get();
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getUsername() {
@@ -75,7 +78,7 @@ public class User {
     }
 
     public SimpleIntegerProperty userIdProperty() {
-        return userId;
+        return new SimpleIntegerProperty(userId);
     }
 
     public SimpleStringProperty usernameProperty() {
@@ -103,7 +106,7 @@ public class User {
     }
 
     public void setUserId(int userId) {
-        this.userId.set(userId);
+        this.userId = userId;
     }
 
     public void setUsername(String username) {
@@ -128,5 +131,10 @@ public class User {
 
     public void setDob(String dob) {
         this.dob.set(dob);
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.lastName;
     }
 }

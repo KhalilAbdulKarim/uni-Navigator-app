@@ -1,6 +1,6 @@
 package com.uninavigator.uninavigatorapp.ApiServices;
 
-import com.uninavigator.uninavigatorapp.controllers.Course;
+import com.uninavigator.uninavigatorapp.controllers.course.Course;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,29 +20,30 @@ public class CourseService {
     JSONArray jsonArray = new JSONArray();
 
 
-    public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
-        JSONObject courseDetails = new JSONObject();
-        courseDetails.put("courseName", courseName);
-        courseDetails.put("instructor", new JSONObject().put("id", instructorId));
-        courseDetails.put("schedule", schedule);
-        courseDetails.put("description", description);
-        courseDetails.put("capacity", capacity);
-        courseDetails.put("startDate", startDate);
-        courseDetails.put("endDate", endDate);
+//    public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
+//        JSONObject courseDetails = new JSONObject();
+//        courseDetails.put("courseName", courseName);
+//        courseDetails.put("instructor", new JSONObject().put("userId", instructorId)); // Use "userId" instead of "id"
+//        courseDetails.put("schedule", schedule);
+//        courseDetails.put("description", description);
+//        courseDetails.put("capacity", capacity);
+//        courseDetails.put("startDate", startDate);
+//        courseDetails.put("endDate", endDate);
+//
+//        RequestBody body = RequestBody.create(courseDetails.toString(), JSON);
+//        Request request = new Request.Builder()
+//                .url(BASE_URL + "/createCourse")
+//                .post(body)
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            return response.isSuccessful();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
-        RequestBody body = RequestBody.create(courseDetails.toString(), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/")
-                .post(body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.isSuccessful();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
 //    public boolean updateCourse(int courseId, String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) throws Exception {
 //        JSONObject jsonObject = new JSONObject();
@@ -67,6 +68,31 @@ public class CourseService {
 //            return false;
 //        }
 //    }
+
+    public boolean createCourse(String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
+        JSONObject courseDetails = new JSONObject();
+        courseDetails.put("courseName", courseName);
+        courseDetails.put("instructor", new JSONObject().put("userId", instructorId));  // Nested JSON for instructor
+        courseDetails.put("schedule", schedule);
+        courseDetails.put("description", description);
+        courseDetails.put("capacity", capacity);
+        courseDetails.put("startDate", startDate);
+        courseDetails.put("endDate", endDate);
+
+        RequestBody body = RequestBody.create(courseDetails.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/createCourse")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.isSuccessful();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public boolean updateCourse(int courseId, String courseName, int instructorId, String schedule, String description, int capacity, String startDate, String endDate) {
         JSONObject courseDetails = new JSONObject();

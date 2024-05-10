@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane  prefHeight="620.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.StudentDashboard">
+<BorderPane  prefHeight="620.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uninavigator.uninavigatorapp.controllers.user.StudentDashboard">
     <top>
         <MenuBar prefHeight="27.0" prefWidth="839.0">
             <menus>

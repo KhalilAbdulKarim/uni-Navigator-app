@@ -1,6 +1,6 @@
 package com.uninavigator.uninavigatorapp.controllers.user;
 
-import DBConnection.DBHandler;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -1,6 +1,7 @@
 package com.uninavigator.uninavigatorapp.controllers.user;
 
 import com.uninavigator.uninavigatorapp.ApiServices.CourseService;
+import com.uninavigator.uninavigatorapp.ApiServices.EnrolmentService;
 import com.uninavigator.uninavigatorapp.controllers.course.Course;
 import com.uninavigator.uninavigatorapp.controllers.user.User;
 import javafx.collections.FXCollections;
@@ -11,17 +12,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.SessionContext;
 import javafx.application.Platform;
-import javafx.scene.control.TableColumn;
 
 
 import java.io.IOException;
@@ -59,9 +58,13 @@ public class StudentDashboard {
     private TableColumn<Course, String> startDateColumn;
     @FXML
     private TableColumn<Course, String> endDateColumn;
+    @FXML
+    private TableColumn<Course, Void> actionColumn;
     private final CourseService courseService;
+    private final EnrolmentService enrolmentService;
     public StudentDashboard() {
         this.courseService = new CourseService();
+        this.enrolmentService = new EnrolmentService();
     }
 
 
@@ -90,7 +93,82 @@ public class StudentDashboard {
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
+        actionColumn.setCellFactory(col -> new TableCell<Course, Void>() {
+            private final Button enrollButton = new Button("Enroll");
+            private final Button dropButton = new Button("Drop");
+            private final HBox actionPane = new HBox(10, enrollButton, dropButton);
+
+            {
+                enrollButton.setOnAction(event -> {
+                    Course course = getTableView().getItems().get(getIndex());
+                    enrollCourse(course);
+                });
+
+                dropButton.setOnAction(event -> {
+                    Course course = getTableView().getItems().get(getIndex());
+                    dropCourse(course);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getIndex() >= getTableView().getItems().size()) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(actionPane);
+                }
+            }
+        });
     }
+
+   private void enrollCourse (Course course) {
+        if (!isUserAuthorized("Student")) {
+            showAlert("Authorization Error", "You are not authorized to perform this action.");
+            return;
+        }
+        try {
+            if (enrolmentService.enrollStudent(course.getCourseId(), SessionContext.getCurrentUser().getUserId())) {
+                showCoursesTable();
+                showAlert("Success", "Enrolled in course successfully.");
+            } else {
+                showAlert("Error", "Failed to enroll in the course. Please try again.");
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Error enrolling in course: " + e.getMessage());
+        }
+    }
+
+    private void dropCourse(Course course) {
+        if (!isUserAuthorized("Student")) {
+            showAlert("Authorization Error", "You are not authorized to perform this action.");
+            return;
+        }
+        try {
+            if (enrolmentService.dropStudent(course.getCourseId(), SessionContext.getCurrentUser().getUserId())) {
+                showCoursesTable();
+                showAlert("Success", "Dropped from course successfully.");
+            } else {
+                showAlert("Error", "Failed to drop the course. Please try again.");
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Error dropping course: " + e.getMessage());
+        }
+    }
+
+    private boolean isUserAuthorized(String requiredRole) {
+        String currentUserRole = SessionContext.getCurrentUserRole();
+        return currentUserRole.equals(requiredRole) || currentUserRole.equals("Admin");
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
     /**
      * Shows the courses table by making it visible and managed.
@@ -293,13 +371,7 @@ public class StudentDashboard {
             e.printStackTrace();
         }
     }
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+
 
 }
 

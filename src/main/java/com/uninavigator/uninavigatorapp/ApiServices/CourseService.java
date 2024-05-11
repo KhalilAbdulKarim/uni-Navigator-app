@@ -156,43 +156,7 @@ public class CourseService {
         return new JSONArray();
     }
 
-    public boolean enrollStudent(int courseId, int studentId) {
-        JSONObject enrollmentDetails = new JSONObject();
-        enrollmentDetails.put("courseId", courseId);
-        enrollmentDetails.put("studentId", studentId);
 
-        RequestBody body = RequestBody.create(enrollmentDetails.toString(), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/enroll")
-                .post(body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.isSuccessful();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean dropStudent(int courseId, int studentId) {
-        JSONObject dropDetails = new JSONObject();
-        dropDetails.put("courseId", courseId);
-        dropDetails.put("studentId", studentId);
-
-        RequestBody body = RequestBody.create(dropDetails.toString(), JSON);
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/drop")
-                .post(body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.isSuccessful();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /**
      * Searches for courses by name using the backend API.

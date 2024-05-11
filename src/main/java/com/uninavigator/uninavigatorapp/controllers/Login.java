@@ -13,8 +13,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.json.JSONException;
-import utils.StageHandler;
 import utils.SessionContext;
+import utils.StageHandler;
+
 import javax.security.sasl.AuthenticationException;
 
 

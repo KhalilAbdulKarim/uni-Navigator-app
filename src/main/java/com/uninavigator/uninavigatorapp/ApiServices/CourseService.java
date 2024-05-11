@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -124,6 +126,7 @@ public class CourseService {
                 .url(BASE_URL + "/instructor/" + instructorId)
                 .get()
                 .build();
+
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
                 return new JSONArray(response.body().string());
@@ -133,6 +136,8 @@ public class CourseService {
         }
         return new JSONArray();
     }
+
+
 
 
     public JSONArray getCoursesByStudent(int studentId) {
@@ -195,27 +200,21 @@ public class CourseService {
      * @param courseName The name of the course to search for.
      * @return A list of courses matching the search criteria.
      */
-    public List<Course> searchCourse(String courseName) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "/search").newBuilder();
-        urlBuilder.addQueryParameter("courseName", courseName);
 
-        String url = urlBuilder.build().toString();
-
+    public JSONArray searchCoursesByName(String courseName) {
         Request request = new Request.Builder()
-                .url(url)
+                .url(BASE_URL + "/search?courseName=" + courseName)
                 .get()
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                String responseBody = response.body().string();
-                JSONArray coursesArray = new JSONArray(responseBody);
-                return convertJSONArrayToCourses(coursesArray);
+                return new JSONArray(response.body().string());
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return new JSONArray();
     }
 
     /**

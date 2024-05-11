@@ -59,7 +59,7 @@ public class StudentDashboard {
     private TableColumn<Course, String> startDateColumn;
     @FXML
     private TableColumn<Course, String> endDateColumn;
-    private CourseService courseService;
+    private final CourseService courseService;
     public StudentDashboard() {
         this.courseService = new CourseService();
     }
@@ -119,7 +119,10 @@ public class StudentDashboard {
                 if ("Admin".equals(currentUser.getRole()) || "Student".equals(currentUser.getRole())) {
                     coursesArray = courseService.getAllCourses();
                 } else if ("Instructor".equals(currentUser.getRole())) {
+                    System.out.println(currentUser.getUserId());
+
                     coursesArray = courseService.getCoursesByInstructor(currentUser.getUserId());
+                    System.out.println(currentUser.getUserId());
                 } else {
                     coursesArray = new JSONArray();
                 }
@@ -131,6 +134,7 @@ public class StudentDashboard {
         }
         return FXCollections.observableArrayList();
     }
+
 
 
 
@@ -163,7 +167,7 @@ public class StudentDashboard {
 
     /**
      *
-     * @param actionEvent to handle loading user's course enrollement
+     * @param actionEvent to handle loading user's course enrolement
      */
 
     @FXML
@@ -253,26 +257,22 @@ public class StudentDashboard {
      */
 
 
-    @FXML
-    private void handleSearch(ActionEvent event) {
+    public void handleSearch(ActionEvent event) {
         String searchQuery = searchField.getText();
-        if (!searchQuery.isEmpty()) {
-            try {
-                List<Course> courses = courseService.searchCourse(searchQuery);
-                if (!courses.isEmpty()) {
-                    ObservableList<Course> courseList = FXCollections.observableArrayList(courses);
-                    coursesTableView.setItems(courseList);
-                } else {
-                    coursesTableView.setItems(FXCollections.observableArrayList());
-                    showAlert("Search Result", "No courses found matching your search.");
-                }
-            } catch (Exception e) {
-                showAlert("Error", "Failed to search courses: " + e.getMessage());
-            }
-        } else {
+        if (searchQuery.isEmpty()) {
             showCoursesTable();
+        } else {
+            try {
+                JSONArray searchResults = courseService.searchCoursesByName(searchQuery);
+                coursesTableView.setItems(convertJSONArrayToCourses(searchResults));
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Could not search for courses: " + e.getMessage());
+            }
         }
     }
+
+
 
     /**
      *

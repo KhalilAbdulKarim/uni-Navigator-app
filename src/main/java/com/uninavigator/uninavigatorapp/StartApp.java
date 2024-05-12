@@ -1,6 +1,6 @@
 package com.uninavigator.uninavigatorapp;
 
-import DBConnection.DBHandler;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

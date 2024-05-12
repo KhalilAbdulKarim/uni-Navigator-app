@@ -373,5 +373,28 @@ public class StudentDashboard {
     }
 
 
+    public void handleProjectManaging(ActionEvent actionEvent) {
+        if ("Instructor".equals(SessionContext.getCurrentUser().getRole())) {
+            switchScene(actionEvent, "/com/uninavigator/uninavigatorapp/ProjectView.fxml", "Project Management");
+        } else {
+            showAlert("Access Denied", "You are not authorized to view this page.");
+        }
+    }
+
+
+    private void switchScene(ActionEvent actionEvent, String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Failed to navigate to " + title);
+        }
+    }
+
 }
 

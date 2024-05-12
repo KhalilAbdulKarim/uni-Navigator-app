@@ -70,6 +70,7 @@
                 <HBox alignment="center" spacing="10" StackPane.alignment="TOP_CENTER">
                     <TextField fx:id="searchField" prefWidth="200" promptText="Search by course name..."/>
                     <Button onAction="#handleSearch" text="Search"/>
+                    <Button onAction="#handleProjectManaging" mnemonicParsing="false" text="Project Management" visible="true"/>
                 </HBox>
         </VBox>
        </StackPane>

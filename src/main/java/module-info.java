@@ -19,5 +19,7 @@ module com.uninavigator.uninavigatorapp {
     opens com.uninavigator.uninavigatorapp.controllers.course to javafx.fxml;
     exports com.uninavigator.uninavigatorapp.controllers.user;
     opens com.uninavigator.uninavigatorapp.controllers.user to javafx.fxml;
+    opens com.uninavigator.uninavigatorapp.controllers.Project to javafx.fxml;
+    exports com.uninavigator.uninavigatorapp.controllers.Project to javafx.fxml;
 
 }
